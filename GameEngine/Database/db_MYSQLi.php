@@ -37,6 +37,10 @@ class MYSQLi_DB {
 		}
 	}
 
+	function escape_string_query($parameters) {
+		return mysqli_real_escape_string($this->connection, $parameters);
+	}
+
 	function activate($username, $password, $email, $tribe, $locate, $act, $act2) {
 		$time = time();
 		$q = "INSERT INTO " . TB_PREFIX . "activate (username,password,access,email,tribe,timestamp,location,act,act2) VALUES ('$username', '$password', " . USER . ", '$email', $tribe, $time, $locate, '$act', '$act2')";

@@ -68,7 +68,7 @@ if ($check1=="" && $check2=="") {$criteria="WHERE tribe=0)";}
 					$player_info=$database->query_return($q);
 					foreach($player_info as $p_array) {
 						$p_name=$p_array['username'];
-						$p_village=mysql_real_escape_string($p_array['name']);
+						$p_village=$database->escape_string_query($p_array['name']);
 						$p_coor="(".$p_array['x']."|".$p_array['y'].")";
 						$p_pop=$p_array['pop'];
 						$p_tribe=$array_tribe[$p_array['tribe']];
@@ -91,7 +91,7 @@ if ($check1=="" && $check2=="") {$criteria="WHERE tribe=0)";}
 							$p_x=250;
 							$p_y=250;
 						}
-						
+
 					echo '<div style="left:'.$p_x.'px; top:'.$p_y.'px; position:absolute">'.$p_info.'</div>';
 					}
 					?>
@@ -120,9 +120,9 @@ if ($check1=="" && $check2=="") {$criteria="WHERE tribe=0)";}
 							<tr>
 							<td><img src="../img/admin/map_0.gif" height="11" width="11"></td><td class="show">Multihunter</td>
 							</tr>
-							</table>		
+							</table>
 						</div>
-						
+
 					</div>
 				</div>
 

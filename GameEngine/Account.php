@@ -178,7 +178,7 @@ class Account {
 
 	private function Login() {
 		global $database,$session,$form;
-		$_POST['user'] = mysqli_real_escape_string($_POST['user']);
+		$_POST['user'] = $database->escape_string_query($_POST['user']);
 		if(!isset($_POST['user']) || $_POST['user'] == "") {
 			$form->addError("user",LOGIN_USR_EMPTY);
 		}

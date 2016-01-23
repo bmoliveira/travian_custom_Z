@@ -25,22 +25,22 @@ if($_POST) {
     foreach($_POST as $key => $value) {
 	if(substr($key, 0, 2) == 'nr') {
 	    $i = substr($key, 2);
-	    $links[$i]['nr'] = mysqli_real_escape_string($value);
+	    $links[$i]['nr'] = $database->escape_string_query($value);
 	}
 	
 	if(substr($key, 0, 2) == 'id') {
 	    $i = substr($key, 2);
-	    $links[$i]['id'] = mysqli_real_escape_string($value);
+	    $links[$i]['id'] = $database->escape_string_query($value);
 	}
 	
 	if(substr($key, 0, 8) == 'linkname') {
 	    $i = substr($key, 8);
-	    $links[$i]['linkname'] = mysqli_real_escape_string($value);
+	    $links[$i]['linkname'] = $database->escape_string_query($value);
 	}
 	
 	if(substr($key, 0, 8) == 'linkziel') {
 	    $i = substr($key, 8);
-	    $links[$i]['linkziel'] = mysqli_real_escape_string($value);
+	    $links[$i]['linkziel'] = $database->escape_string_query($value);
 	}
     }
     

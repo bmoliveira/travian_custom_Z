@@ -32,8 +32,8 @@ echo <<<EOT
 EOT;
 }else{
 
-    $account = mysqli_real_escape_string($_POST['username']);
-    $reward = mysqli_real_escape_string($_POST['reward']);
+    $account = $database->escape_string_query($_POST['username']);
+    $reward = $database->escape_string_query($_POST['reward']);
     $valid=TRUE;
 
 
