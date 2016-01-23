@@ -12,7 +12,7 @@
 
 //heef npc uitzondering omdat die met speciaal $_post werken
 global $database;
-
+$database->MYSQL_DB();
 if(isset($_POST)){
 	if(!isset($_POST['ft'])){
 		$_POST = $database->sanitate($_POST);
