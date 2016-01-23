@@ -49,7 +49,7 @@ class MYSQL_DB {
 }
 
 	function query($query) {
-		return $database->mysql_query_adapter($query, $this->connection);
+		return $database->mysql_query_adapter($query);
 	}
 };
 
