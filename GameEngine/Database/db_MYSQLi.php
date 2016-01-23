@@ -37,6 +37,10 @@ class MYSQLi_DB {
 		}
 	}
 
+	function get_connection() {
+		return $this->connection
+	}
+
 	function escape_string_query($parameters) {
 		return mysqli_real_escape_string($this->connection, $parameters);
 	}
