@@ -14,7 +14,7 @@ class MYSQLi_DB {
 
 	var $connection;
 	function MYSQL_DB() {
-		$this->connection = sqli_connect(SQL_SERVER, SQL_USER, SQL_PASS, SQL_DB) or die('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
+		$this->connection = mysqli_connect(SQL_SERVER, SQL_USER, SQL_PASS, SQL_DB) or die('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
 
 		## Added even MySQL connection for inline mysql commands in temeplate files
 		$con = mysql_connect(SQL_SERVER, SQL_USER, SQL_PASS);
