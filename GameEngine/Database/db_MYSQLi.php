@@ -3476,7 +3476,202 @@ class MYSQLi_DB {
 		mysqli_query($this->connection, $q);
 	}
 
+	/***************************
+	Function to get Hero Dead
+	Made by: Shadow and brainiacX
+	***************************/
 
+	function getHeroDead($id) {
+				$q = "SELECT dead FROM " . TB_PREFIX . "hero WHERE `uid` = $id";
+				$result = mysqli_query($this->connection, $q);
+				$notend= mysqli_fetch_array($result, MYSQLI_BOTH);
+				return $notend['dead'];
+		}
+
+	/***************************
+	Function to get Hero In Revive
+	Made by: Shadow
+	***************************/
+
+	function getHeroInRevive($id) {
+				$q = "SELECT inrevive FROM " . TB_PREFIX . "hero WHERE `uid` = $id";
+				$result = mysqli_query($this->connection, $q);
+				$notend= mysqli_fetch_array($result, MYSQLI_BOTH);
+				return $notend['inrevive'];
+		}
+
+	/***************************
+	Function to get Hero In Training
+	Made by: Shadow
+	***************************/
+
+	function getHeroInTraining($id) {
+				$q = "SELECT intraining FROM " . TB_PREFIX . "hero WHERE `uid` = $id";
+				$result = mysqli_query($this->connection, $q);
+				$notend= mysqli_fetch_array($result, MYSQLI_BOTH);
+				return $notend['intraining'];
+		}
+
+	/***************************
+	Function to check Hero Not in Village
+	Made by: Shadow and brainiacX
+	***************************/
+
+	function HeroNotInVil($id) {
+								$heronum=0;
+				$outgoingarray = $this->getMovement(3, $id, 0);
+				if(!empty($outgoingarray)) {
+				foreach($outgoingarray as $out) {
+					$heronum += $out['t11'];
+				}
+			}
+				$returningarray = $this->getMovement(4, $id, 1);
+				if(!empty($returningarray)) {
+				foreach($returningarray as $ret) {
+					if($ret['attack_type'] != 1) {
+					$heronum += $ret['t11'];
+					}
+				}
+			}
+				return $heronum;
+		}
+
+	/***************************
+	Function to Kill hero if not found
+	Made by: Shadow and brainiacX
+	***************************/
+
+			 function KillMyHero($id) {
+					 $q = "UPDATE " . TB_PREFIX . "hero set dead = 1 where uid = ".$id;
+							 return mysqli_query($this->connection, $q);
+			 }
+
+	/***************************
+				Function to find Hero place
+				Made by: ronix
+				***************************/
+				function FindHeroInVil($wid) {
+						$result = $this->query("SELECT * FROM ".TB_PREFIX."units WHERE hero>0 AND vref='".$wid."'");
+						if (!empty($result)) {
+								$dbarray = mysqli_fetch_array($result, MYSQLI_BOTH);
+								if(isset($dbarray['hero'])) {
+										$this->query("UPDATE ".TB_PREFIX."units SET hero=0 WHERE vref='".$wid."'");
+										unset($dbarray);
+										return true;
+								}
+						}
+						return false;
+				}
+				function FindHeroInDef($wid) {
+						$delDef=true;
+						$result = $this->query_return("SELECT * FROM ".TB_PREFIX."enforcement WHERE hero>0 AND `from` = ".$wid);
+						if (!empty($result)) {
+								$dbarray = mysqli_fetch_array($result, MYSQLI_BOTH);
+								if(isset($dbarray['hero'])) {
+										$this->query("UPDATE ".TB_PREFIX."enforcement SET hero=0 WHERE `from` = ".$wid);
+										for ($i=0;$i<50;$i++) {
+												if($dbarray['u'.$i]>0) {
+														$delDef=false;
+														break;
+												}
+										}
+										if ($delDef) $this->deleteReinf($wid);
+										unset($dbarray);
+										return true;
+								}
+						}
+						return false;
+				}
+				function FindHeroInOasis($uid) {
+						$delDef=true;
+						$dbarray = $this->query_return("SELECT e.*,o.conqured,o.owner FROM ".TB_PREFIX."enforcement as e LEFT JOIN ".TB_PREFIX."odata as o ON e.vref=o.wref where o.owner=".$uid." AND e.hero>0");
+						if(!empty($dbarray)) {
+								foreach($dbarray as $defoasis) {
+										if($defoasis['hero']>0) {
+												$this->query("UPDATE ".TB_PREFIX."enforcement SET hero=0 WHERE `from` = ".$defoasis['from']);
+												for ($i=0;$i<50;$i++) {
+														if($dbarray['u'.$i]>0) {
+																$delDef=false;
+																break;
+														}
+												}
+												if ($delDef) $this->deleteReinf($defoasis['from']);
+												unset($dbarray);
+												return true;
+										}
+								}
+						}
+						return 0;
+				}
+
+				function FindHeroInMovement($wid) {
+						$outgoingarray = $this->getMovement(3, $wid, 0);
+						if(!empty($outgoingarray)) {
+								foreach($outgoingarray as $out) {
+										if ($out['t11']>0) {
+												$dbarray = $this->query("UPDATE ".TB_PREFIX."attacks SET t11=0 WHERE `id` = ".$out['ref']);
+												return true;
+												break;
+										}
+								}
+						}
+						$returningarray = $this->getMovement(4, $wid, 1);
+						if(!empty($returningarray)) {
+								foreach($returningarray as $ret) {
+										if($ret['attack_type'] != 1 && $ret['t11']>0) {
+												$dbarray = $this->query("UPDATE ".TB_PREFIX."attacks SET t11=0 WHERE `id` = ".$ret['ref']);
+												return true;
+												break;
+										}
+								}
+						}
+						return false;
+				}
+
+	/***************************
+	Function checkAttack
+	Made by: Shadow
+	***************************/
+
+			 function checkAttack($wref, $toWref){
+							$q = "SELECT * FROM " . TB_PREFIX . "movement, " . TB_PREFIX . "attacks where " . TB_PREFIX . "movement.from = $wref and " . TB_PREFIX . "movement.to = $toWref and " . TB_PREFIX . "movement.ref = " . TB_PREFIX . "attacks.id and " . TB_PREFIX . "movement.proc = 0 and " . TB_PREFIX . "movement.sort_type = 3 and (" . TB_PREFIX . "attacks.attack_type = 3 or " . TB_PREFIX . "attacks.attack_type = 4) ORDER BY endtime ASC";
+		$result = mysqli_query($this->connection, $q);
+		if(mysqli_num_rows($result)) {
+		return true;
+		} else {
+		return false;
+		}
+						}
+
+	/***************************
+	Function checkEnforce
+	Made by: Shadow
+	***************************/
+
+	function checkEnforce($wref, $toWref) {
+				$q = "SELECT * FROM " . TB_PREFIX . "movement, " . TB_PREFIX . "attacks where " . TB_PREFIX . "movement.from = $wref and " . TB_PREFIX . "movement.to = $toWref and " . TB_PREFIX . "movement.ref = " . TB_PREFIX . "attacks.id and " . TB_PREFIX . "movement.proc = 0 and " . TB_PREFIX . "movement.sort_type = 3 and " . TB_PREFIX . "attacks.attack_type = 2 ORDER BY endtime ASC";
+					$result = mysqli_query($this->connection, $q);
+				if(mysqli_num_rows($result)) {
+				return true;
+				}else{
+				return false;
+				}
+		}
+
+	/***************************
+		Function checkScout
+		Made by: yi12345
+		***************************/
+
+	function checkScout($wref, $toWref) {
+				$q = "SELECT * FROM " . TB_PREFIX . "movement, " . TB_PREFIX . "attacks where " . TB_PREFIX . "movement.from = $wref and " . TB_PREFIX . "movement.to = $toWref and " . TB_PREFIX . "movement.ref = " . TB_PREFIX . "attacks.id and " . TB_PREFIX . "movement.proc = 0 and " . TB_PREFIX . "movement.sort_type = 3 and " . TB_PREFIX . "attacks.attack_type = 1 ORDER BY endtime ASC";
+					$result = mysqli_query($this->connection, $q);
+				if(mysqli_num_rows($result)) {
+				return true;
+				}else{
+				return false;
+				}
+		}
 };
 
 $database = new MYSQLi_DB;
