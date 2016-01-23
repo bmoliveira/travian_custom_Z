@@ -3680,7 +3680,7 @@ class MYSQLi_DB {
 					$q = "SELECT e.*,o.conqured FROM ".TB_PREFIX."enforcement as e LEFT JOIN ".TB_PREFIX."odata as o ON e.vref=o.wref where o.conqured = $ref";
 			}
 			$result = mysqli_query($this->connection, $q);
-			return $this->mysql_fetch_all($result);
+			return $this->mysqli_fetch_all($result);
 		}
 
 		function getOasisEnforceArray($id, $mode=0) {
