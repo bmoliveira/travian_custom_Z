@@ -19,8 +19,8 @@ $id = $_POST['id'];
 $gold = $_POST['gold'];
 
 	$q = "UPDATE ".TB_PREFIX."users SET gold = gold + ".$_POST['gold']." WHERE id != '0'";
-	mysql_query($q);
-	mysql_query("Insert into ".TB_PREFIX."admin_log values (0,$id,'Added <b>$gold</b> gold to all users',".time().")");
+	$database->mysql_query_adapter($q);
+	$database->mysql_query_adapter("Insert into ".TB_PREFIX."admin_log values (0,$id,'Added <b>$gold</b> gold to all users',".time().")");
 
 
 header("Location: ../../../Admin/admin.php?p=gold&g");

@@ -17,7 +17,7 @@ if(isset($id))
 		</thead>
 			<?php
 				$sql = "SELECT * FROM ".TB_PREFIX."build_log WHERE wid = ".$_GET['did']."";
-				$result = mysql_query($sql);
+				$result = $database->mysql_query_adapter($sql);
 				while($row = mysql_fetch_assoc($result))
 				{
 					$j++;

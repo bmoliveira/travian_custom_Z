@@ -210,7 +210,7 @@ class Message {
 		global $database,$session;
 		for($i = 1; $i <= 10; $i++) {
 			if(isset($post['n' . $i])) {
-			$message1 = mysql_query("SELECT * FROM " . TB_PREFIX . "mdata where id = ".$post['n' . $i]."");
+			$message1 = $database->mysql_query_adapter("SELECT * FROM " . TB_PREFIX . "mdata where id = ".$post['n' . $i]."");
 			$message = mysql_fetch_array($message1);
 			if($message['target'] == $session->uid && $message['owner'] == $session->uid){
 				$database->getMessage($post['n' . $i], 8);
@@ -321,16 +321,16 @@ class Message {
 		// Vulnerability closed by Shadow
 
 		$q = "SELECT * FROM ".TB_PREFIX."mdata WHERE owner='".$session->uid."' AND time > ".time()." - 60";
-		$res = mysql_query($q) or die(mysql_error(). " query  ".$q);
+		$res = $database->mysql_query_adapter($q) or die(mysql_error(). " query  ".$q);
 		$flood = mysql_num_rows($res);
 		if($flood > 5)
 		return; //flood
 
 		// Vulnerability closed by Shadow
 			
-		$allmembersQ = mysql_query("SELECT id FROM ".TB_PREFIX."users WHERE alliance='".$session->alliance."'");
+		$allmembersQ = $database->mysql_query_adapter("SELECT id FROM ".TB_PREFIX."users WHERE alliance='".$session->alliance."'");
 		$userally = $database->getUserField($session->uid,"alliance",0);
-		$permission=mysql_fetch_array(mysql_query("SELECT opt7 FROM ".TB_PREFIX."ali_permission WHERE uid='".$session->uid."'"));
+		$permission=mysql_fetch_array($database->mysql_query_adapter("SELECT opt7 FROM ".TB_PREFIX."ali_permission WHERE uid='".$session->uid."'"));
 		if(WORD_CENSOR) {
 		$topic = $this->wordCensor($topic);
 		$text = $this->wordCensor($text);
@@ -410,7 +410,7 @@ class Message {
 		// Vulnerability closed by Shadow
 
 		$q = "SELECT * FROM ".TB_PREFIX."mdata WHERE owner='".$session->uid."' AND time > ".time()." - 60";
-		$res = mysql_query($q) or die(mysql_error(). " query  ".$q);
+		$res = $database->mysql_query_adapter($q) or die(mysql_error(). " query  ".$q);
 		$flood = mysql_num_rows($res);
 		if($flood > 5)
 		return; //flood

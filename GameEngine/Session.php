@@ -6,15 +6,15 @@ mb_internal_encoding("UTF-8"); // Add for utf8 varriables.
 ##              -= YOU MAY NOT REMOVE OR CHANGE THIS NOTICE =-                 ##
 ## --------------------------------------------------------------------------- ##
 ##  Project:       TravianZ                                                    ##
-##  Version:       22.06.2015                    			       ## 
+##  Version:       22.06.2015                    			       ##
 ##  Filename       Session.php                                                 ##
-##  Developed by:  Mr.php , Advocaite , brainiacX , yi12345 , Shadow , ronix   ## 
+##  Developed by:  Mr.php , Advocaite , brainiacX , yi12345 , Shadow , ronix   ##
 ##  Fixed by:      Shadow - STARVATION , HERO FIXED COMPL.  		       ##
 ##  Fixed by:      InCube - double troops				       ##
 ##  License:       TravianZ Project                                            ##
 ##  Copyright:     TravianZ (c) 2010-2015. All rights reserved.                ##
 ##  URLs:          http://travian.shadowss.ro                		       ##
-##  Source code:   https://github.com/Shadowss/TravianZ		               ## 
+##  Source code:   https://github.com/Shadowss/TravianZ		               ##
 ##                                                                             ##
 #################################################################################
 
@@ -86,23 +86,23 @@ class Session {
 				$_SESSION['checker'] = $generator->generateRandStr(3);
 				$_SESSION['mchecker'] = $generator->generateRandStr(5);
 				$_SESSION['qst'] = $database->getUserField($_SESSION['username'], "quest", 1);
-                $result = mysql_query("SELECT village_select FROM `". TB_PREFIX."users` WHERE `username`='".$_SESSION['username']."'");
+                $result = $database->mysql_query_adapter("SELECT village_select FROM `". TB_PREFIX."users` WHERE `username`='".$_SESSION['username']."'");
                 $dbarray = mysql_fetch_assoc($result);
                 $selected_village=$dbarray['village_select'];
                 if(!isset($_SESSION['wid'])) {
                     if($selected_village!='') {
-                        $query = mysql_query('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `wref` = '.$selected_village);
+                        $query = $database->mysql_query_adapter('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `wref` = '.$selected_village);
                     }else{
-                        $query = mysql_query('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `owner` = ' . $database->getUserField($_SESSION['username'], "id", 1) . ' LIMIT 1');
+                        $query = $database->mysql_query_adapter('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `owner` = ' . $database->getUserField($_SESSION['username'], "id", 1) . ' LIMIT 1');
                     }
                     $data = mysql_fetch_assoc($query);
                     $_SESSION['wid'] = $data['wref'];
                 } else
                     if($_SESSION['wid'] == '') {
                         if($selected_village!='') {
-                            $query = mysql_query('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `wref` = '.$selected_village);
+                            $query = $database->mysql_query_adapter('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `wref` = '.$selected_village);
                         }else{
-                            $query = mysql_query('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `owner` = ' . $database->getUserField($_SESSION['username'], "id", 1) . ' LIMIT 1');
+                            $query = $database->mysql_query_adapter('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `owner` = ' . $database->getUserField($_SESSION['username'], "id", 1) . ' LIMIT 1');
                         }
                         $data = mysql_fetch_assoc($query);
                         $_SESSION['wid'] = $data['wref'];
@@ -147,7 +147,7 @@ class Session {
                     			return false;
                 		}
             		}
-			
+
 
 			/***************************
 			Function to check Real Hero
@@ -159,18 +159,18 @@ class Session {
    				$hero=0;
     			foreach($this->villages as $myvill){
      				$q1 = "SELECT SUM(hero) from " . TB_PREFIX . "enforcement where `from` = ".$myvill;       // check if hero is send as reinforcement
-     				$result1 = mysql_query($q1, $database->connection);
+     				$result1 = $database->mysql_query_adapter($q1, $database->connection);
      				$he1=mysql_fetch_array($result1);
      				$hero+=$he1[0];
      				$q2 = "SELECT SUM(hero) from " . TB_PREFIX . "units where `vref` = ".$myvill;   // check if hero is on my account (all villages)
-     				$result2 = mysql_query($q2, $database->connection);
+     				$result2 = $database->mysql_query_adapter($q2, $database->connection);
      				$he2=mysql_fetch_array($result2);
      				$hero+=$he2[0];
      				$q3 = "SELECT SUM(t11) from " . TB_PREFIX . "prisoners where `from` = ".$myvill;   // check if hero is prisoner
-					$result3 = mysql_query($q3, $database->connection);
+					$result3 = $database->mysql_query_adapter($q3, $database->connection);
 					$he3=mysql_fetch_array($result3);
 					$hero+=$he3[0];
-					$hero+=$database->HeroNotInVil($myvill); // check if hero is not in village (come back from attack , raid , etc.)  
+					$hero+=$database->HeroNotInVil($myvill); // check if hero is not in village (come back from attack , raid , etc.)
      				}
      				$yes=true; //fix by ronix
             if($database->getHeroDead($this->uid) and !$hero){ // check if hero is already dead
@@ -179,9 +179,9 @@ class Session {
                 $yes=false;
             }elseif($database->getHeroInTraining($this->uid) and !$hero){ // check if hero is in training
                 $yes=false;
-            } 
+            }
             if($yes and !$hero) $database->KillMyHero($this->uid);
-				} 
+				}
 
 			private function PopulateVar() {
 				global $database;

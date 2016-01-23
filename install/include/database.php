@@ -39,7 +39,7 @@ class MYSQL_DB {
   foreach ($query_split as $command_line) {
 	$command_line = trim($command_line);
 	if ($command_line != '') {
-	  $query_result = mysql_query($command_line);
+	  $query_result = $database->mysql_query_adapter($command_line);
 	  if ($query_result == 0) {
 		break;
 	  };
@@ -49,7 +49,7 @@ class MYSQL_DB {
 }
 
 	function query($query) {
-		return mysql_query($query, $this->connection);
+		return $database->mysql_query_adapter($query, $this->connection);
 	}
 };
 

@@ -17,13 +17,13 @@ mysql_select_db(SQL_DB);
 
 $session = $_POST['admid'];
 
-$sql = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
+$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
 $access = mysql_fetch_array($sql);
 $sessionaccess = $access['access'];
 
 if($sessionaccess != 9) die("<h1><font color=\"red\">Access Denied: You are not Admin!</font></h1>");
 
-mysql_query("UPDATE ".TB_PREFIX."users SET gold = '0' WHERE id !=0");
+$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users SET gold = '0' WHERE id !=0");
 
 header("Location: ../../../Admin/admin.php?p=maintenenceResetGold&g");
 ?>

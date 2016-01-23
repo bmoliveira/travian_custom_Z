@@ -50,7 +50,7 @@ if($_GET['uid'])
 						<td>Villages:</td>
 						<td>
 							<?php
-								$result = mysql_query("SELECT SQL_CACHE * FROM ".TB_PREFIX."vdata WHERE owner = ".$user['id']."");
+								$result = $database->mysql_query_adapter("SELECT SQL_CACHE * FROM ".TB_PREFIX."vdata WHERE owner = ".$user['id']."");
 								$num_rows = mysql_num_rows($result);
 								echo $num_rows;
 							?>
