@@ -4,15 +4,15 @@
 ##              -= YOU MAY NOT REMOVE OR CHANGE THIS NOTICE =-                 ##
 ## --------------------------------------------------------------------------- ##
 ##  Project:       TravianZ                                                    ##
-##  Version:       22.06.2015                    			       ## 
+##  Version:       22.06.2015                    			       ##
 ##  Filename       Account.php                                                 ##
-##  Developed by:  Mr.php , Advocaite , brainiacX , yi12345 , Shadow , ronix   ## 
+##  Developed by:  Mr.php , Advocaite , brainiacX , yi12345 , Shadow , ronix   ##
 ##  Fixed by:      Shadow - STARVATION , HERO FIXED COMPL.  		       ##
 ##  Fixed by:      InCube - double troops				       ##
 ##  License:       TravianZ Project                                            ##
 ##  Copyright:     TravianZ (c) 2010-2015. All rights reserved.                ##
 ##  URLs:          http://travian.shadowss.ro                		       ##
-##  Source code:   https://github.com/Shadowss/TravianZ		               ## 
+##  Source code:   https://github.com/Shadowss/TravianZ		               ##
 ##                                                                             ##
 #################################################################################
 
@@ -106,7 +106,7 @@ class Account {
             $form->addError("invt",$_POST['invited']);
             $_SESSION['errorarray'] = $form->getErrors();
             $_SESSION['valuearray'] = $_POST;
-            
+
 
             header("Location: anmelden.php");
         }
@@ -178,7 +178,7 @@ class Account {
 
 	private function Login() {
 		global $database,$session,$form;
-		$_POST['user'] = mysql_real_escape_string($_POST['user']);
+		$_POST['user'] = mysqli_real_escape_string($_POST['user']);
 		if(!isset($_POST['user']) || $_POST['user'] == "") {
 			$form->addError("user",LOGIN_USR_EMPTY);
 		}

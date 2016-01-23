@@ -20,7 +20,7 @@ if(isset($_POST)){
 			$rsargs=$_GET['rsargs'];
 $_GET = array_map('mysql_real_escape_string', $_GET);
 $_GET = array_map('htmlspecialchars', $_GET);
-			$_GET['rsargs']=$rsargs;
+$_GET['rsargs']=$rsargs;
 $_COOKIE = array_map('mysql_real_escape_string', $_COOKIE);
 $_COOKIE = array_map('htmlspecialchars', $_COOKIE);
 ?>
