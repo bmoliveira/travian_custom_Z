@@ -3325,26 +3325,26 @@ class MYSQLi_DB {
 	     $days1 =60*60*24*$days;
 	     $time =time()+$days1;
 	     $q ="UPDATE ".TB_PREFIX."users SET vac_mode = '1' , vac_time=".$time." WHERE id=".$uid."";
-		 $result =mysql_query($q,$this->connection);
+		 $result =mysqli_query($this->connection, $q);
 	     }
 
 	   function removevacationmode($uid){
 	     $q ="UPDATE ".TB_PREFIX."users SET vac_mode = '0' , vac_time='0' WHERE id=".$uid."";
-	     $result =mysql_query($q,$this->connection);
+	     $result =mysqli_query($this->connection, $q);
 	     }
 
 	   function getvacmodexy($wref){
 		$q = "SELECT id,oasistype,occupied FROM " . TB_PREFIX . "wdata where id = $wref";
-	     $result = mysql_query($q, $this->connection);
-	     $dbarray = mysql_fetch_array($result);
+	     $result = mysqli_query($this->connection, $q);
+	     $dbarray = mysqli_fetch_array($result, MYSQLI_BOTH);
 	     if($dbarray['occupied'] != 0 && $dbarray['oasistype'] == 0) {
 	     $q1 = "SELECT owner FROM " . TB_PREFIX . "vdata where wref = ".$dbarray['id']."";
-	     $result1 = mysql_query($q1, $this->connection);
-	     $dbarray1 = mysql_fetch_array($result1);
+	     $result1 = mysqli_query($this->connection, $q1);
+	     $dbarray1 = mysqli_fetch_array($result1, MYSQLI_BOTH);
 	     if($dbarray1['owner'] != 0){
 	     $q2 = "SELECT vac_mode,vac_time FROM " . TB_PREFIX . "users where id = ".$dbarray1['owner']."";
-	     $result2 = mysql_query($q2, $this->connection);
-	     $dbarray2 = mysql_fetch_array($result2);
+	     $result2 = mysqli_query($this->connection, $q2);
+	     $dbarray2 = mysqli_fetch_array($result2, MYSQLI_BOTH);
 	     if($dbarray2['vac_mode'] ==1){
 	     return true;
 	     }else{
