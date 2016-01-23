@@ -11,16 +11,19 @@
 #################################################################################
 
 //heef npc uitzondering omdat die met speciaal $_post werken
+global $database;
+
 if(isset($_POST)){
 	if(!isset($_POST['ft'])){
-	$_POST = @array_map('mysqli_real_escape_string', $database->get_connection, $_POST);
-	$_POST = array_map('htmlspecialchars', $_POST);
+		$_POST = $database->sanitate($_POST)
+		$_POST = array_map('htmlspecialchars', $_POST);
 	}
 }
-			$rsargs=$_GET['rsargs'];
-$_GET = array_map('mysqli_real_escape_string', $database->get_connection, $_GET);
+
+$rsargs=$_GET['rsargs'];
+$_GET = $database->sanitate($_GET)
 $_GET = array_map('htmlspecialchars', $_GET);
 $_GET['rsargs']=$rsargs;
-$_COOKIE = array_map('mysqli_real_escape_string', $database->get_connection, $_COOKIE);
+$_COOKIE = $database->sanitate($_COOKIE)
 $_COOKIE = array_map('htmlspecialchars', $_COOKIE);
 ?>

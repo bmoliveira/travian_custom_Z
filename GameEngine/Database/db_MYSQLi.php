@@ -37,9 +37,17 @@ class MYSQLi_DB {
 		}
 	}
 
-	function get_connection() {
-		return $this->connection
-	}
+	function sanitate($array) {
+   foreach($array as $key=>$value) {
+      if(is_array($value)) {
+				sanitate($value);
+			}
+      else {
+				$array[$key] = mysqli_real_escape_string($this->connection, $value);
+			}
+   }
+   return $array;
+}
 
 	function escape_string_query($parameters) {
 		return mysqli_real_escape_string($this->connection, $parameters);
