@@ -37,6 +37,10 @@ class MYSQLi_DB {
 		}
 	}
 
+	function mysql_query_adapter($parameters) {
+		return mysqli_query($this->connection, $parameters);
+	}
+
 	function mysql_query_adapter($parameters, $dummyConnection) {
 		return mysqli_query($this->connection, $parameters);
 	}
