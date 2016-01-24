@@ -652,7 +652,7 @@ class Battle {
 
 			if (isset($units['Att_unit']['hero']) && $units['Att_unit']['hero'] >0){
 
-				$_result=$database->mysql_query_adapter("select * from " . TB_PREFIX . "hero where `dead`='0' and `heroid`='".$atkhero['heroid']."'");
+				$_result=mysql_query("select * from " . TB_PREFIX . "hero where `dead`='0' and `heroid`='".$atkhero['heroid']."'");
 				$fdb = mysql_fetch_array($_result);
 				$hero_id=$fdb['heroid'];
 				$hero_health=$fdb['health'];
@@ -661,10 +661,10 @@ class Battle {
 				if ($hero_health<=$damage_health or $damage_health>90){
 					//hero die
 					$result['casualties_attacker']['11'] = 1;
-					$database->mysql_query_adapter("update " . TB_PREFIX . "hero set `dead`='1' where `heroid`='".$hero_id."'");
-					$database->mysql_query_adapter("update " . TB_PREFIX . "hero set `health`='0' where `heroid`='".$hero_id."'");
+					mysql_query("update " . TB_PREFIX . "hero set `dead`='1' where `heroid`='".$hero_id."'");
+					mysql_query("update " . TB_PREFIX . "hero set `health`='0' where `heroid`='".$hero_id."'");
 				}else{
-					$database->mysql_query_adapter("update " . TB_PREFIX . "hero set `health`=`health`-".$damage_health." where `heroid`='".$hero_id."'");
+					mysql_query("update " . TB_PREFIX . "hero set `health`=`health`-".$damage_health." where `heroid`='".$hero_id."'");
 				}
 			}
 			unset($_result,$fdb,$hero_id,$hero_health,$damage_health);
@@ -672,7 +672,7 @@ class Battle {
 
 			if (isset($units['Def_unit']['hero']) && $units['Def_unit']['hero'] >0){
 
-				$_result=$database->mysql_query_adapter("select * from " . TB_PREFIX . "hero where `dead`='0' and `heroid`='".$defenderhero['heroid']."'");
+				$_result=mysql_query("select * from " . TB_PREFIX . "hero where `dead`='0' and `heroid`='".$defenderhero['heroid']."'");
 				$fdb = mysql_fetch_array($_result);
 				$hero_id=$fdb['heroid'];
 				$hero_health=$fdb['health'];
@@ -680,11 +680,11 @@ class Battle {
 				if ($hero_health<=$damage_health or $damage_health>90){
 					//hero die
 					$result['deadherodef'] = 1;
-					$database->mysql_query_adapter("update " . TB_PREFIX . "hero set `dead`='1' where `heroid`='".$hero_id."'");
-					$database->mysql_query_adapter("update " . TB_PREFIX . "hero set `health`='0' where `heroid`='".$hero_id."'");
+					mysql_query("update " . TB_PREFIX . "hero set `dead`='1' where `heroid`='".$hero_id."'");
+					mysql_query("update " . TB_PREFIX . "hero set `health`='0' where `heroid`='".$hero_id."'");
 				}else{
 					$result['deadherodef'] = 0;
-					$database->mysql_query_adapter("update " . TB_PREFIX . "hero set `health`=`health`-".$damage_health." where `heroid`='".$hero_id."'");
+					mysql_query("update " . TB_PREFIX . "hero set `health`=`health`-".$damage_health." where `heroid`='".$hero_id."'");
 				}
 			}
 			unset($_result,$fdb,$hero_id,$hero_health,$damage_health);
@@ -696,7 +696,7 @@ class Battle {
 						if(!empty($heroarray)) { reset($heroarray); }
 						$Reinforcer = $database->getVillageField($defenders['from'],"owner");
 						$heroarraydefender = $this->getBattleHero($Reinforcer);
-						$_result=$database->mysql_query_adapter("select * from " . TB_PREFIX . "hero where `dead`='0' and `heroid`='".$heroarraydefender['heroid']."'");
+						$_result=mysql_query("select * from " . TB_PREFIX . "hero where `dead`='0' and `heroid`='".$heroarraydefender['heroid']."'");
 						$fdb = mysql_fetch_array($_result);
 						$hero_id=$fdb['heroid'];
 						$hero_health=$fdb['health'];
@@ -704,11 +704,11 @@ class Battle {
 						if ($hero_health<=$damage_health or $damage_health>90){
 							//hero die
 							$result['deadheroref'][$defenders['id']] = 1;
-							$database->mysql_query_adapter("update " . TB_PREFIX . "hero set `dead`='1' where `heroid`='".$hero_id."'");
-							$database->mysql_query_adapter("update " . TB_PREFIX . "hero set `health`='0' where `heroid`='".$hero_id."'");
+							mysql_query("update " . TB_PREFIX . "hero set `dead`='1' where `heroid`='".$hero_id."'");
+							mysql_query("update " . TB_PREFIX . "hero set `health`='0' where `heroid`='".$hero_id."'");
 						}else{
 							$result['deadheroref'][$defenders['id']] = 0;
-							$database->mysql_query_adapter("update " . TB_PREFIX . "hero set `health`=`health`-".$damage_health." where `heroid`='".$hero_id."'");
+							mysql_query("update " . TB_PREFIX . "hero set `health`=`health`-".$damage_health." where `heroid`='".$hero_id."'");
 						}
 					}
 				}

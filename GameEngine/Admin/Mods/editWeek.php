@@ -18,13 +18,13 @@ mysql_select_db(SQL_DB);
 $session = $_POST['admid'];
 $id = $_POST['id'];
 
-$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
+$sql = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
 $access = mysql_fetch_array($sql);
 $sessionaccess = $access['access'];
 
 if($sessionaccess != 9) die("<h1><font color=\"red\">Access Denied: You are not Admin!</font></h1>");
 
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users SET 
+mysql_query("UPDATE ".TB_PREFIX."users SET 
 	ap = '".$_POST['off']."', 
 	dp = '".$_POST['def']."', 
 	RR = '".$_POST['res']."' 

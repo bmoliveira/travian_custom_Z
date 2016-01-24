@@ -18,7 +18,7 @@ mysql_select_db(SQL_DB);
 $session = $_POST['admid'];
 $id = $_POST['uid'];
 
-$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
+$sql = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
 $access = mysql_fetch_array($sql);
 $sessionaccess = $access['access'];
 
@@ -26,7 +26,7 @@ if($sessionaccess != 9) die("<h1><font color=\"red\">Access Denied: You are not 
 
 $access = $_POST['access'];
 
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users SET 
+mysql_query("UPDATE ".TB_PREFIX."users SET 
 	access = ".$access." 
 	WHERE id = ".$id."") or die(mysql_error());
 

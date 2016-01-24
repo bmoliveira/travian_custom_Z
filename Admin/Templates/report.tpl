@@ -15,7 +15,7 @@ if ($_GET['bid']){
 $rep = $database->getNotice4($_GET['bid']);
 }else
 $sql = "SELECT * FROM ".TB_PREFIX."ndata ORDER BY time DESC ";
-$result = $database->mysql_query_adapter($sql);
+$result = mysql_query($sql);
 $rep1 = $database->mysql_fetch_all($result);
 if($rep1)
 {

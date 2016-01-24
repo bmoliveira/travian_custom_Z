@@ -20,7 +20,7 @@ mysql_select_db(SQL_DB);
 
 $id = $_POST['id'];
 
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."fdata SET 
+mysql_query("UPDATE ".TB_PREFIX."fdata SET 
 	f1  = '".$_POST['id1level']."', 
 	f1t = '".$_POST['id1gid']."', 
 	f2  = '".$_POST['id2level']."', 

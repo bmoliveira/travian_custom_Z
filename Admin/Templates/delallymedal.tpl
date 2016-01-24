@@ -12,7 +12,7 @@
 if($_SESSION['access'] < ADMIN) die("Access Denied: You are not Admin!");
 include("../GameEngine/config.php");
 $id = $_SESSION['id'];
-$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."allimedal");
+$sql = mysql_query("SELECT * FROM ".TB_PREFIX."allimedal");
 $nummedals = mysql_num_rows($sql);
 ?>
 
@@ -36,9 +36,9 @@ $nummedals = mysql_num_rows($sql);
 	</thead>
 	<tbody>
 		<?php
-			$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."allimedal");
+			$sql = mysql_query("SELECT * FROM ".TB_PREFIX."allimedal");
 			$tot = mysql_num_rows($sql);
-			$sql = $database->mysql_query_adapter("SELECT week FROM ".TB_PREFIX."allimedal ORDER BY week DESC LIMIT 1");
+			$sql = mysql_query("SELECT week FROM ".TB_PREFIX."allimedal ORDER BY week DESC LIMIT 1");
 			if(mysql_num_rows($sql) > 0){
 			$week = mysql_result($sql, 0);
 			echo "<tr><td><center>$week</center></td><td><center>$tot</center></td></tr>";
@@ -75,7 +75,7 @@ $nummedals = mysql_num_rows($sql);
 			for($j = 0; $j<$week; $j++)
 			{
 				$newweek = $j+1;
-				$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."allimedal WHERE week = $newweek");
+				$sql = mysql_query("SELECT * FROM ".TB_PREFIX."allimedal WHERE week = $newweek");
 				$tot = mysql_num_rows($sql);
 				echo "<tr>
 				<td>$newweek</td>
@@ -111,7 +111,7 @@ $nummedals = mysql_num_rows($sql);
 	<tbody>
 		<?php
 			$query = "SELECT * FROM ".TB_PREFIX."allimedal ORDER BY id DESC";
-			$result = $database->mysql_query_adapter($query);
+			$result = mysql_query($query);
 			while($row = mysql_fetch_array($result))
 			{
 				$i = $i + 1;
@@ -131,7 +131,7 @@ $nummedals = mysql_num_rows($sql);
 				$allyid = $row['allyid'];
 
 				$unq = "SELECT name FROM ".TB_PREFIX."alidata WHERE id = ".$allyid."";
-				$user = mysql_result($database->mysql_query_adapter($unq), 0);
+				$user = mysql_result(mysql_query($unq), 0);
 				$allyname = $user;
 
 				$alliance = '<a href="admin.php?p=alliance&aid='.$allyid.'">'.$allyname.'</a>';

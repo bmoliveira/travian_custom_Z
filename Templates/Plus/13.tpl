@@ -1,6 +1,6 @@
 <!---<?php
 /*include("Templates/Plus/pmenu.tpl");
-    $MyVilId = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."vdata WHERE `wref`='".$village->wid."'") or die(mysql_error());
+    $MyVilId = mysql_query("SELECT * FROM ".TB_PREFIX."vdata WHERE `wref`='".$village->wid."'") or die(mysql_error());
     $uuVilid = mysql_fetch_array($MyVilId);
     $totalR = ($uuVilid['6']+$uuVilid['7']+$uuVilid['8']+$uuVilid['10']);
     $quart = ($totalR / 4);
@@ -21,10 +21,10 @@
 			<td align="center">
 <?php
 if($session->sit == 0) {
-	/* $MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+	/* $MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
     $golds = mysql_fetch_array($MyGold);
 
-    $MyId = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+    $MyId = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
     $uuid = mysql_fetch_array($MyId);
 
 	echo "<input type='text' name='T1' size='6' value=".$quart."></td>";
@@ -34,7 +34,7 @@ if($session->sit == 0) {
 	echo "<input type='text' name='T3' size='6' value=".$quart."></td>";
 			echo "<td align='center'>";
 	echo "<input type='text' name='T4' size='6' value=".$quart."></td>";
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users set gold = ".($session->gold-1)." where `id`='".$session->uid."'") or die(mysql_error());
+mysql_query("UPDATE ".TB_PREFIX."users set gold = ".($session->gold-1)." where `id`='".$session->uid."'") or die(mysql_error());
  */
 }
 ?>

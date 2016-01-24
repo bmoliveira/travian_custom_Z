@@ -111,7 +111,7 @@ $query2 = "SELECT
 
 //$query2;
 
-$result2 = $database->mysql_query_adapter($query2) or die(mysql_error());
+$result2 = mysql_query($query2) or die(mysql_error());
 
 $targetalliance = array();
 $neutralarray = array();

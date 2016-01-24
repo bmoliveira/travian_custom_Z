@@ -140,7 +140,7 @@ class Account {
 	   {
 			global $database;
 			$q = "SELECT * FROM ".TB_PREFIX."activate where act = '".$_POST['id']."'";
-			$result = $database->mysql_query_adapter($q, $database->connection);
+			$result = mysql_query($q, $database->connection);
 			$dbarray = mysql_fetch_array($result);
 			if($dbarray['act'] == $_POST['id']) {
 				$uid = $database->register($dbarray['username'],$dbarray['password'],$dbarray['email'],$dbarray['tribe'],"");
@@ -165,7 +165,7 @@ class Account {
 	private function Unreg() {
 		global $database;
 		$q = "SELECT * FROM ".TB_PREFIX."activate where id = '".$_POST['id']."'";
-		$result = $database->mysql_query_adapter($q, $database->connection);
+		$result = mysql_query($q, $database->connection);
 		$dbarray = mysql_fetch_array($result);
 		if(md5($_POST['pw']) == $dbarray['password']) {
 			$database->unreg($dbarray['username']);

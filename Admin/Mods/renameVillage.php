@@ -20,7 +20,7 @@ $did = $_POST['did'];
 $name = $_POST['villagename'];
 $sql = "UPDATE ".TB_PREFIX."vdata SET name = '$name' WHERE wref = $did";
 
-$database->mysql_query_adapter($sql);
+mysql_query($sql);
 
 header("Location: ../../../Admin/admin.php?p=village&did=".$did."&name=".$name."");
 ?>

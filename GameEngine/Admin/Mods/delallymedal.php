@@ -19,13 +19,13 @@ $delete = $_POST['medalid'];
 $aid = $_POST['aid'];
 $session = $_POST['admid'];
 
-$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
+$sql = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
 $access = mysql_fetch_array($sql);
 $sessionaccess = $access['access'];
 
 if($sessionaccess != 9) die("<h1><font color=\"red\">Access Denied: You are not Admin!</font></h1>");
 
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."allimedal set del = 1 WHERE id = ".$delete."");
+mysql_query("UPDATE ".TB_PREFIX."allimedal set del = 1 WHERE id = ".$delete."");
 
 header("Location: ../../../Admin/admin.php?p=alliance&aid=".$aid."");
 ?>

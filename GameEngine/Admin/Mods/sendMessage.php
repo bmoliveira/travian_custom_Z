@@ -18,7 +18,7 @@ mysql_select_db(SQL_DB);
 $session = $_POST['admid'];
 
 
-$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
+$sql = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
 $access = mysql_fetch_array($sql);
 $sessionaccess = $access['access'];
 
@@ -26,7 +26,7 @@ if($sessionaccess != 9) die("<h1><font color=\"red\">Access Denied: You are not 
 
 $query = "INSERT INTO ".TB_PREFIX."mdata (target, owner, topic, message, viewed, time) VALUES ('$uid', 1, '$topic', '$message', 0, '$time')";
 
-$database->mysql_query_adapter($query);
+mysql_query($query);
 
 header("Location: ../../../Admin/admin.php?p=Newmessage&uid=".$uid."&msg=ok");
 ?>

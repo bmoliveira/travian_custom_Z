@@ -69,11 +69,11 @@ $automation->isWinner();
 <?
 if ($amount == 199) {
 // Kontoauszug aufrufen f&uuml;r Goldpaket A
-$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 $golds = mysql_fetch_array($MyGold);
 $goldnow = $golds['6'] + 60;
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users set gold = '".$goldnow."' where `id`='".$session->uid."'") or die(mysql_error());
-$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+mysql_query("UPDATE ".TB_PREFIX."users set gold = '".$goldnow."' where `id`='".$session->uid."'") or die(mysql_error());
+$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 $golds1 = mysql_fetch_array($MyGold);
 ?><p>Thank you for your purchase here at Travianist.com</p><p>Below you see the entry record.  Out of it, you can observe your old as well as your new account balance.</p>
 <table class="plusFunctions" cellpadding="1" cellspacing="1">
@@ -117,11 +117,11 @@ $golds1 = mysql_fetch_array($MyGold);
 }
 if ($amount == 499) {
 // Kontoauszug aufrufen f&uuml;r Goldpaket B
-$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 $golds = mysql_fetch_array($MyGold);
 $goldnow = $golds['6'] + 120;
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users set gold = '".$goldnow."' where `id`='".$session->uid."'") or die(mysql_error());
-$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+mysql_query("UPDATE ".TB_PREFIX."users set gold = '".$goldnow."' where `id`='".$session->uid."'") or die(mysql_error());
+$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 $golds1 = mysql_fetch_array($MyGold);
 ?><p>Thank you for your purchase here at TravianX.</p><p>Below you see the entry record.  Out of it, you can observe your old as well as your new account balance.</p>
 <table class="plusFunctions" cellpadding="1" cellspacing="1">
@@ -164,11 +164,11 @@ $golds1 = mysql_fetch_array($MyGold);
 }
 if ($amount == 999) {
 // Kontoauszug aufrufen f&uuml;r Goldpaket C
-$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 $golds = mysql_fetch_array($MyGold);
 $goldnow = $golds['6'] + 360;
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users set gold = '".$goldnow."' where `id`='".$session->uid."'") or die(mysql_error());
-$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+mysql_query("UPDATE ".TB_PREFIX."users set gold = '".$goldnow."' where `id`='".$session->uid."'") or die(mysql_error());
+$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 $golds1 = mysql_fetch_array($MyGold);
 ?><p>Thank you for your purchase here at TravianX.</p><p>Below you see the entry record.  Out of it, you can observe your old as well as your new account balance.</p>
 <table class="plusFunctions" cellpadding="1" cellspacing="1">
@@ -211,11 +211,11 @@ $golds1 = mysql_fetch_array($MyGold);
 }
 if ($amount == 1999) {
 // Kontoauszug aufrufen f&uuml;r Goldpaket D
-$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 $golds = mysql_fetch_array($MyGold);
 $goldnow = $golds['6'] + 1000;
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users set gold = '".$goldnow."' where `id`='".$session->uid."'") or die(mysql_error());
-$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+mysql_query("UPDATE ".TB_PREFIX."users set gold = '".$goldnow."' where `id`='".$session->uid."'") or die(mysql_error());
+$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 $golds1 = mysql_fetch_array($MyGold);
 ?><p>Thank you for your purchase here at TravianX.</p><p>Below you see the entry record.  Out of it, you can observe your old as well as your new account balance.</p>
 <table class="plusFunctions" cellpadding="1" cellspacing="1">
@@ -258,11 +258,11 @@ $golds1 = mysql_fetch_array($MyGold);
 }
 if ($amount == 4999) {
 // Kontoauszug aufrufen f&uuml;r Goldpaket E
-$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 $golds = mysql_fetch_array($MyGold);
 $goldnow = $golds['6'] + 2000;
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users set gold = '".$goldnow."' where `id`='".$session->uid."'") or die(mysql_error());
-$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+mysql_query("UPDATE ".TB_PREFIX."users set gold = '".$goldnow."' where `id`='".$session->uid."'") or die(mysql_error());
+$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 $golds1 = mysql_fetch_array($MyGold);
 ?><p>Thank you for your purchase here at TravianX.</p><p>Below you see the entry record.  Out of it, you can observe your old as well as your new account balance.</p>
 <table class="plusFunctions" cellpadding="1" cellspacing="1">
@@ -304,7 +304,7 @@ $golds1 = mysql_fetch_array($MyGold);
 }
 				if ($amount == 0)
 				{
-				$MyGold = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
+				$MyGold = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE `id`='".$session->uid."'") or die(mysql_error());
 				$golds = mysql_fetch_array($MyGold);
 					 ?>
 

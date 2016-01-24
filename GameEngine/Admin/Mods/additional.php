@@ -17,7 +17,7 @@ mysql_select_db(SQL_DB);
 $id = $_POST['id'];
 $admid = $_POST['admid'];
 
-//$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$admid."");
+//$sql = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$admid."");
 //$access = mysql_fetch_array($sql);
 //$sessionaccess = $access['access'];
 if (!isset($_SESSION)) {
@@ -30,7 +30,7 @@ $access = $_POST['access'];
 $dur = $_POST['protect'] * 86400;
 $protection = (time() + $dur);
 
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users SET 
+mysql_query("UPDATE ".TB_PREFIX."users SET 
 	access = ".$access.",
 	gold = ".$_POST['gold'].",	
 	sit1 = '".$_POST['sitter1']."',

@@ -18,7 +18,7 @@ mysql_select_db(SQL_DB);
 $session = $_POST['admid'];
 $id = $_POST['id'];
 
-$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
+$sql = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$session."");
 $access = mysql_fetch_array($sql);
 $sessionaccess = $access['access'];
 
@@ -30,7 +30,7 @@ $b2dur = $_POST['clay'] * 86400;
 $b3dur = $_POST['iron'] * 86400;
 $b4dur = $_POST['crop'] * 86400;
 
-$sql1 = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$id."");
+$sql1 = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = ".$id."");
 $user = mysql_fetch_array($sql1);
 
 if($user['plus'] < time()){
@@ -59,7 +59,7 @@ if($b4dur > 1){ $crop = (time() + $b4dur); } else { $crop = time(); }
 if($b4dur > 1){ $crop = ($user['b4'] + $b4dur); } else { $crop = $user['b4']; }
 }
 
-$database->mysql_query_adapter("UPDATE ".TB_PREFIX."users SET 
+mysql_query("UPDATE ".TB_PREFIX."users SET 
 	plus = '".$plus."',
 	b1 = '".$wood."', 
 	b2 = '".$clay."',

@@ -21,7 +21,7 @@
 			public function getUserRank($id) {
 			$ranking = $this->getRank();
 			$users = "SELECT * FROM " . TB_PREFIX . "users WHERE access < " . (INCLUDE_ADMIN ? "10" : "8") . "";
-			$users2 = mysql_num_rows($database->mysql_query_adapter($users));
+			$users2 = mysql_num_rows(mysql_query($users));
 			$users3 = $users2+1;
 			if(count($ranking) > 0) {
 			for($i=0;$i<($users3);$i++) {
@@ -266,7 +266,7 @@
 			AND " . TB_PREFIX . "users.tribe <= 3 ORDER BY totalpop DESC, totalvillages DESC, userid DESC";	
 			}
 
-			$result = ($database->mysql_query_adapter($q));
+			$result = (mysql_query($q));
 				while($row = mysql_fetch_assoc($result)) {
 					$datas[] = $row;
 				}
@@ -320,7 +320,7 @@
 			ORDER BY totalpop DESC, totalvillages DESC, userid DESC";
 
 
-				$result = ($database->mysql_query_adapter($q));
+				$result = (mysql_query($q));
 				while($row = mysql_fetch_assoc($result)) {
 					$datas[] = $row;
 				}
@@ -376,7 +376,7 @@
 			FROM " . TB_PREFIX . "users
 			WHERE " . TB_PREFIX . "users.apall >=0 AND " . TB_PREFIX . "users.access < " . (INCLUDE_ADMIN ? "10" : "8") . " AND " . TB_PREFIX . "users.tribe <= 3
 			ORDER BY " . TB_PREFIX . "users.apall DESC, pop DESC, userid DESC";
-				$result = $database->mysql_query_adapter($q) or die(mysql_error());
+				$result = mysql_query($q) or die(mysql_error());
 				while($row = mysql_Fetch_assoc($result)) {
 					$datas[] = $row;
 				}
@@ -418,7 +418,7 @@
 			FROM " . TB_PREFIX . "users
 			WHERE " . TB_PREFIX . "users.dpall >=0 AND " . TB_PREFIX . "users.access < " . (INCLUDE_ADMIN ? "10" : "8") . " AND " . TB_PREFIX . "users.tribe <= 3
 			ORDER BY " . TB_PREFIX . "users.dpall DESC, pop DESC, userid DESC";
-				$result = $database->mysql_query_adapter($q) or die(mysql_error());
+				$result = mysql_query($q) or die(mysql_error());
 				while($row = mysql_Fetch_assoc($result)) {
 					$datas[] = $row;
 				}

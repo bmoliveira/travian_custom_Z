@@ -21,7 +21,7 @@ $time = time();
 
 $query = "INSERT INTO ".TB_PREFIX."mdata (target, owner, topic, message, viewed, time) VALUES ('$uid', 1, '$topic', '$message', 0, '$time')";
 
-$database->mysql_query_adapter($query);
+mysql_query($query);
 
 header("Location: ../../../Admin/admin.php?p=Newmessage&uid=".$uid."&msg=ok");
 ?>

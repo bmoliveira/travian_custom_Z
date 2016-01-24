@@ -287,7 +287,7 @@ class Units {
         }
         if( intval($enforce['hero']) > 0){
             $q = "SELECT * FROM ".TB_PREFIX."hero WHERE uid = ".$from['owner']."";
-            $result = $database->mysql_query_adapter($q);
+            $result = mysql_query($q);
             $hero_f=mysql_fetch_array($result);
             $hero_unit=$hero_f['unit'];
             $speeds[] = $GLOBALS['u'.$hero_unit]['speed'];
@@ -380,13 +380,13 @@ if($session->access != BANNED){
                 array(0,0,0,0,0,0,0,0,0,0,0)
             );
 
-    $query1 = $database->mysql_query_adapter('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `wref` = ' . mysql_escape_string($data['to_vid']));
+    $query1 = mysql_query('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `wref` = ' . mysql_escape_string($data['to_vid']));
     $data1 = mysql_fetch_assoc($query1);
-    $query2 = $database->mysql_query_adapter('SELECT * FROM `' . TB_PREFIX . 'users` WHERE `id` = ' . $data1['owner']);
+    $query2 = mysql_query('SELECT * FROM `' . TB_PREFIX . 'users` WHERE `id` = ' . $data1['owner']);
     $data2 = mysql_fetch_assoc($query2);
-    $query11 = $database->mysql_query_adapter('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `wref` = ' . mysql_escape_string($village->wid));
+    $query11 = mysql_query('SELECT * FROM `' . TB_PREFIX . 'vdata` WHERE `wref` = ' . mysql_escape_string($village->wid));
     $data11 = mysql_fetch_assoc($query11);
-    $query21 = $database->mysql_query_adapter('SELECT * FROM `' . TB_PREFIX . 'users` WHERE `id` = ' . $data11['owner']);
+    $query21 = mysql_query('SELECT * FROM `' . TB_PREFIX . 'users` WHERE `id` = ' . $data11['owner']);
     $data21 = mysql_fetch_assoc($query21);
 
 
@@ -447,7 +447,7 @@ if($session->access != BANNED){
 		// If is a WW village you can target on WW , if is not a WW village catapults will target randomly.
 		// Like it says : Exceptions are the WW which can always be targeted and the treasure chamber which can always be targeted, except with the unique artifact.
 		// Fixed by Advocaite and Shadow
-        $q = $database->mysql_query_adapter("SELECT vref FROM ".TB_PREFIX."fdata WHERE f99t = '40' AND vref = ".$data['to_vid']."");
+        $q = mysql_query("SELECT vref FROM ".TB_PREFIX."fdata WHERE f99t = '40' AND vref = ".$data['to_vid']."");
         $isThere = mysql_num_rows($q);
         if($isThere > 0)
         {
@@ -517,7 +517,7 @@ if($session->access != BANNED){
         if($checkexist or $checkoexist){
         $database->addMovement(3,$village->wid,$data['to_vid'],$reference,time(),($time+time()));
         if(($database->hasBeginnerProtection($village->wid)==1)&&($checkexist)){
-        $database->mysql_query_adapter("UPDATE ".TB_PREFIX."users SET protect = 0 WHERE id = $session->uid");
+        mysql_query("UPDATE ".TB_PREFIX."users SET protect = 0 WHERE id = $session->uid");
 		}
         }
 
@@ -619,7 +619,7 @@ if($session->access != BANNED){
                     if (isset($post['t11'])){
                         if( $post['t11'] != '' && $post['t11'] > 0){
                         $qh = "SELECT * FROM ".TB_PREFIX."hero WHERE uid = ".$from['owner']."";
-                        $resulth = $database->mysql_query_adapter($qh);
+                        $resulth = mysql_query($qh);
                         $hero_f=mysql_fetch_array($resulth);
                         $hero_unit=$hero_f['unit'];
                         $speeds[] = $GLOBALS['u'.$hero_unit]['speed'];
