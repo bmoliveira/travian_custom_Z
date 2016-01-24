@@ -113,7 +113,6 @@ class Process {
 		} else {
 			header("Location: index.php?s=1&c=1");
 		}
-
 		fclose($fh);
 	}
 
