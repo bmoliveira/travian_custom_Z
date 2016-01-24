@@ -20,6 +20,7 @@ class MYSQLi_DB {
 		## Added even MySQL connection for inline mysql commands in temeplate files
 		$connection = mysql_connect(SQL_SERVER, SQL_USER, SQL_PASS);
 		mysql_select_db(SQL_DB, $connection) or die(mysql_error());
+		mysql_query("SET NAMES 'UTF8'");  //Fix utf8 phpmyadmin by gm4st3r
 	}
 
 	function register($username, $password, $email, $tribe, $act) {
