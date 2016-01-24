@@ -13,7 +13,8 @@
 class MYSQLi_DB {
 
 	var $sqli_connection;
-	var $connection
+	var $connection;
+	
 	function MYSQL_DB() {
 		$this->sqli_connection = mysqli_connect(SQL_SERVER, SQL_USER, SQL_PASS, SQL_DB) or die('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
 
