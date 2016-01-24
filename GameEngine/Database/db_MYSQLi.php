@@ -18,7 +18,7 @@ class MYSQLi_DB {
 
 		## Added even MySQL connection for inline mysql commands in temeplate files
 		$con = mysql_connect(SQL_SERVER, SQL_USER, SQL_PASS);
-		mysql_select_db(SQL_DB, $this->connection) or die(mysql_error());
+		mysql_select_db(SQL_DB, $con) or die(mysql_error());
 	}
 
 	function register($username, $password, $email, $tribe, $act) {
