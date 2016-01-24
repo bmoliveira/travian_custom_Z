@@ -8,7 +8,7 @@ if(isset($_GET['t'])==99 && isset($_POST['action'])=='addList' && $_POST['did']!
 	header("Location: build.php?gid=16&t=99&action=addList");
 }
 
-$sql = mysql_query("SELECT * FROM ".TB_PREFIX."farmlist WHERE owner = $session->uid ORDER BY wref = $village->wid DESC");
+$sql = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."farmlist WHERE owner = $session->uid ORDER BY wref = $village->wid DESC");
 $query = mysql_num_rows($sql);
 while($row = mysql_fetch_array($sql)){
     $lid = $row["id"];
@@ -50,7 +50,7 @@ while($row = mysql_fetch_array($sql)){
         <tbody>
 
 <?php
-$sql2 = mysql_query("SELECT * FROM ".TB_PREFIX."raidlist WHERE lid = $lid ORDER BY distance ASC");
+$sql2 = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."raidlist WHERE lid = $lid ORDER BY distance ASC");
 $query2 = mysql_num_rows($sql2);
 if($query2 == 0) {        
     echo '<td class="noData" colspan="7">There is not any raid list.</td>';
@@ -192,7 +192,7 @@ $vdata = $database->getVillage($towref);
 <?php
 $noticeClass = array("Scout Report","Won as attacker without losses","Won as attacker with losses","Lost as attacker with losses","Won as defender without losses","Won as defender with losses","Lost as defender with losses","Lost as defender without losses","Reinforcement arrived","","Wood Delivered","Clay Delivered","Iron Delivered","Crop Delivered","","Won as defender without losses","Won as defender with losses","Lost as defender with losses","Won scouting as attacker","Lost scouting as attacker","Won scouting as defender","Lost scouting as defender");
 $limits = "(ntype=1 or ntype=2 or ntype=3 or ntype=18 or ntype=19 or ntype=22)";
-$getnotice = mysql_query("SELECT * FROM ".TB_PREFIX."ndata WHERE $limits AND toWref = ".$towref." AND uid = ".$session->uid." ORDER BY time DESC Limit 1");
+$getnotice = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."ndata WHERE $limits AND toWref = ".$towref." AND uid = ".$session->uid." ORDER BY time DESC Limit 1");
 if(mysql_num_rows($getnotice) > 0){
 while($row2 = mysql_fetch_array($getnotice)){
     $dataarray = explode(",",$row2['data']);
@@ -313,7 +313,7 @@ if(!$database->getVilFarmlist($village->wid)){
         {
             Travian.Game.RaidList.setData({
 <?php
-$result = mysql_query('SELECT * FROM '.TB_PREFIX.'farmlist WHERE wref = '.$village->wid.'');
+$result = $database->mysql_query_adapter('SELECT * FROM '.TB_PREFIX.'farmlist WHERE wref = '.$village->wid.'');
 $query1 = mysql_num_rows($result);
 $NUM1 = 1;
 while($row = mysql_fetch_array($result)){
@@ -324,7 +324,7 @@ $lid = $row['id'];
                     "troops":{"1":<?php echo $unit1; ?>,"2":<?php echo $unit2; ?>,"3":<?php echo $unit3; ?>,"4":<?php echo $unit4; ?>,"5":<?php echo $unit5; ?>,"6":<?php echo $unit6; ?>,"7":<?php echo $unit7; ?>,"8":<?php echo $unit8; ?>,"9":<?php echo $unit9; ?>,"10":<?php echo $unit10; ?>,"11":<?php echo $getUnit['hero']; ?>},
                     "directions":{"village":"none","ew":"none","distance":"asc","troops":"none","lastRaid":"none"},
                     "slots":{<?php 
-$result3 = mysql_query('SELECT * FROM '.TB_PREFIX.'raidlist WHERE lid = '.$lid.'');
+$result3 = $database->mysql_query_adapter('SELECT * FROM '.TB_PREFIX.'raidlist WHERE lid = '.$lid.'');
 $query2 = mysql_num_rows($result3);
 $NUM2 = 1;
 while($row3 = mysql_fetch_array($result3)){

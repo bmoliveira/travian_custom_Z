@@ -14,8 +14,8 @@
              
     //mysql_select_db($db_name, $con);
 
-    $result = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE access<".(INCLUDE_ADMIN?"10":"8")." AND id > 5 AND tribe<=3 AND tribe > 0 ORDER BY ap DESC, id DESC Limit 10");
-    $result2 = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = '".$session->uid."' ORDER BY ap DESC, id DESC Limit 1");
+    $result = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE access<".(INCLUDE_ADMIN?"10":"8")." AND id > 5 AND tribe<=3 AND tribe > 0 ORDER BY ap DESC, id DESC Limit 10");
+    $result2 = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = '".$session->uid."' ORDER BY ap DESC, id DESC Limit 1");
 	?>
 	<table cellpadding="1" cellspacing="1">
 	<thead>
@@ -75,8 +75,8 @@
     for($i=1;$i<=0;$i++) {
     echo "Row ".$i;
     }
-    $result = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE access<".(INCLUDE_ADMIN?"10":"8")." AND id > 5 AND tribe<=3 AND tribe > 0 ORDER BY dp DESC, id DESC Limit 10");
-    $result2 = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = '".$session->uid."' ORDER BY dp DESC Limit 1");
+    $result = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE access<".(INCLUDE_ADMIN?"10":"8")." AND id > 5 AND tribe<=3 AND tribe > 0 ORDER BY dp DESC, id DESC Limit 10");
+    $result2 = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = '".$session->uid."' ORDER BY dp DESC Limit 1");
 ?>
 <table cellpadding="1" cellspacing="1" id="top10_defs" class="top10 row_table_data">
 	<thead>
@@ -129,8 +129,8 @@
     for($i=1;$i<=0;$i++) {
     echo "Row ".$i;
     }
-    $result = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE access<".(INCLUDE_ADMIN?"10":"8")." AND id > 5 AND tribe<=3 AND tribe > 0 ORDER BY clp DESC, id DESC Limit 10");
-    $result2 = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = '".$session->uid."' ORDER BY clp DESC Limit 1");
+    $result = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE access<".(INCLUDE_ADMIN?"10":"8")." AND id > 5 AND tribe<=3 AND tribe > 0 ORDER BY clp DESC, id DESC Limit 10");
+    $result2 = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = '".$session->uid."' ORDER BY clp DESC Limit 1");
 ?>
 <div class="clear"></div>
 <table cellpadding="1" cellspacing="1" id="top10_climbers" class="top10 row_table_data">
@@ -181,8 +181,8 @@
     for($i=1;$i<=0;$i++) {
     echo "Row ".$i;
     }
-    $result = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE access<".(INCLUDE_ADMIN?"10":"8")." AND id > 5 AND tribe<=3 AND tribe > 0 ORDER BY RR DESC, id DESC Limit 10");
-    $result2 = mysql_query("SELECT * FROM ".TB_PREFIX."users WHERE id = '".$session->uid."' ORDER BY RR DESC Limit 1");
+    $result = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE access<".(INCLUDE_ADMIN?"10":"8")." AND id > 5 AND tribe<=3 AND tribe > 0 ORDER BY RR DESC, id DESC Limit 10");
+    $result2 = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."users WHERE id = '".$session->uid."' ORDER BY RR DESC Limit 1");
 ?>
 <table cellpadding="1" cellspacing="1" id="top10_raiders" class="top10 row_table_data">
 	<thead>

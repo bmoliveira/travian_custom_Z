@@ -25,7 +25,6 @@ class MYSQLi_DB {
 class MYSQL_DB {
 
 	var $connection;
-
 	function MYSQL_DB() {
 		$this->connection = mysql_connect(SQL_SERVER, SQL_USER, SQL_PASS) or die(mysql_error());
 		mysql_select_db(SQL_DB, $this->connection) or die(mysql_error());
@@ -39,7 +38,7 @@ class MYSQL_DB {
   foreach ($query_split as $command_line) {
 	$command_line = trim($command_line);
 	if ($command_line != '') {
-	  $query_result = mysql_query($command_line);
+	  $query_result = $database->mysql_query_adapter($command_line);
 	  if ($query_result == 0) {
 		break;
 	  };
@@ -49,7 +48,7 @@ class MYSQL_DB {
 }
 
 	function query($query) {
-		return mysql_query($query, $this->connection);
+		return $database->mysql_query_adapter($query);
 	}
 };
 

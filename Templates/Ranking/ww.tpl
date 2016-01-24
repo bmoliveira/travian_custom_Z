@@ -1,7 +1,7 @@
 <?php 
 if (WW == True) 
 { 
-    $result = mysql_query("select " . TB_PREFIX . "users.id, " . TB_PREFIX . "users.username," . TB_PREFIX . "users.alliance, " . TB_PREFIX . "fdata.wwname, " . TB_PREFIX . "fdata.f99, " . TB_PREFIX . "vdata.name, " . TB_PREFIX . "fdata.vref  
+    $result = $database->mysql_query_adapter("select " . TB_PREFIX . "users.id, " . TB_PREFIX . "users.username," . TB_PREFIX . "users.alliance, " . TB_PREFIX . "fdata.wwname, " . TB_PREFIX . "fdata.f99, " . TB_PREFIX . "vdata.name, " . TB_PREFIX . "fdata.vref  
                         FROM " . TB_PREFIX . "users  
                         INNER JOIN " . TB_PREFIX . "vdata ON " . TB_PREFIX . "users.id = " . TB_PREFIX . "vdata.owner 
                         INNER JOIN " . TB_PREFIX . "fdata ON " . TB_PREFIX . "fdata.vref = " . TB_PREFIX . "vdata.wref 
@@ -27,7 +27,7 @@ if (WW == True)
         while ($row = mysql_fetch_array($result)) 
         { 
             $ally = $database->getAlliance($row[alliance]); 
-            $query = @mysql_query('SELECT * FROM `' . TB_PREFIX . 'ww_attacks` WHERE `vid` = ' . $row['vref'] . ' ORDER BY `attack_time` ASC LIMIT 1'); 
+            $query = @$database->mysql_query_adapter('SELECT * FROM `' . TB_PREFIX . 'ww_attacks` WHERE `vid` = ' . $row['vref'] . ' ORDER BY `attack_time` ASC LIMIT 1'); 
             $row2 = @mysql_fetch_assoc($query); 
         ?> 
         <tr> 

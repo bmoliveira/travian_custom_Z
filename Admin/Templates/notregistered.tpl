@@ -17,7 +17,7 @@
 	<tbody>
 		<?php
 			$sql = "SELECT * FROM ".TB_PREFIX."activate";
-			$result = mysql_query($sql);
+			$result = $database->mysql_query_adapter($sql);
 			while($row = mysql_fetch_assoc($result))
 			{
 				$i++;

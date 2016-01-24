@@ -14,8 +14,8 @@
              
     mysql_select_db($db_name, $con);
 
-    $result = mysql_query("SELECT * FROM ".TB_PREFIX."alidata ORDER BY ap DESC, id DESC Limit 10");
-    $result2 = mysql_query("SELECT * FROM ".TB_PREFIX."alidata WHERE id = '".$session->alliance."' ORDER BY ap DESC, id DESC Limit 1");
+    $result = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."alidata ORDER BY ap DESC, id DESC Limit 10");
+    $result2 = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."alidata WHERE id = '".$session->alliance."' ORDER BY ap DESC, id DESC Limit 1");
 	?>
 	<table cellpadding="1" cellspacing="1">
 	<thead>
@@ -75,8 +75,8 @@
     for($i=1;$i<=0;$i++) {
     echo "Row ".$i;
     }
-    $result = mysql_query("SELECT * FROM ".TB_PREFIX."alidata ORDER BY dp DESC, id DESC Limit 10");
-    $result2 = mysql_query("SELECT * FROM ".TB_PREFIX."alidata WHERE id = '".$session->alliance."' ORDER BY dp DESC Limit 1");
+    $result = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."alidata ORDER BY dp DESC, id DESC Limit 10");
+    $result2 = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."alidata WHERE id = '".$session->alliance."' ORDER BY dp DESC Limit 1");
 ?>
 <table cellpadding="1" cellspacing="1" id="top10_defs" class="top10 row_table_data">
 	<thead>
@@ -129,8 +129,8 @@
     for($i=1;$i<=0;$i++) {
     echo "Row ".$i;
     }
-    $result = mysql_query("SELECT * FROM ".TB_PREFIX."alidata ORDER BY clp DESC, id DESC Limit 10");
-    $result2 = mysql_query("SELECT * FROM ".TB_PREFIX."alidata WHERE id = '".$session->alliance."' ORDER BY clp DESC Limit 1");
+    $result = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."alidata ORDER BY clp DESC, id DESC Limit 10");
+    $result2 = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."alidata WHERE id = '".$session->alliance."' ORDER BY clp DESC Limit 1");
 ?>
 <div class="clear"></div>
 <table cellpadding="1" cellspacing="1" id="top10_climbers" class="top10 row_table_data">
@@ -182,8 +182,8 @@
     for($i=1;$i<=0;$i++) {
     echo "Row ".$i;
     }
-    $result = mysql_query("SELECT * FROM ".TB_PREFIX."alidata ORDER BY RR DESC, id DESC Limit 10");
-    $result2 = mysql_query("SELECT * FROM ".TB_PREFIX."alidata WHERE id = '".$session->alliance."' ORDER BY RR DESC Limit 1");
+    $result = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."alidata ORDER BY RR DESC, id DESC Limit 10");
+    $result2 = $database->mysql_query_adapter("SELECT * FROM ".TB_PREFIX."alidata WHERE id = '".$session->alliance."' ORDER BY RR DESC Limit 1");
 ?>
 <table cellpadding="1" cellspacing="1" id="top10_raiders" class="top10 row_table_data">
 	<thead>

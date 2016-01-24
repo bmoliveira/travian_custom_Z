@@ -30,19 +30,19 @@ class adm_DB {
   function adm_DB(){
 	global $database;
 		$this->connection = mysql_connect(SQL_SERVER, SQL_USER, SQL_PASS) or die(mysql_error());
-		mysql_select_db(SQL_DB, $this->connection) or die(mysql_error());
+		mysql_select_db(SQL_DB) or die(mysql_error());
 	}
 
 	function Login($username,$password){
 		$q = "SELECT password FROM ".TB_PREFIX."users where username = '$username' and access >= ".MULTIHUNTER;
-		$result = mysql_query($q, $this->connection);
+		$result = $database->mysql_query_adapter($q);
 		$dbarray = mysql_fetch_array($result);
 		if($dbarray['password'] == md5($password)) {
-			mysql_query("Insert into ".TB_PREFIX."admin_log values (0,'X','$username logged in (IP: <b>".$_SERVER['REMOTE_ADDR']."</b>)',".time().")");
+			$database->mysql_query_adapter("Insert into ".TB_PREFIX."admin_log values (0,'X','$username logged in (IP: <b>".$_SERVER['REMOTE_ADDR']."</b>)',".time().")");
 			return true;
 		}
 		else {
-			mysql_query("Insert into ".TB_PREFIX."admin_log values (0,'X','<font color=\'red\'><b>IP: ".$_SERVER['REMOTE_ADDR']." tried to log in with username <u> $username</u> but access was denied!</font></b>',".time().")");
+			$database->mysql_query_adapter("Insert into ".TB_PREFIX."admin_log values (0,'X','<font color=\'red\'><b>IP: ".$_SERVER['REMOTE_ADDR']." tried to log in with username <u> $username</u> but access was denied!</font></b>',".time().")");
 			return false;
 		}
 	}
@@ -70,9 +70,9 @@ class adm_DB {
     }
 
     $q = "UPDATE ".TB_PREFIX."vdata set pop = $popTot where wref = $vid";
-    mysql_query($q, $this->connection);
+    $database->mysql_query_adapter($q);
   }
-  
+
     function recountCP($vid){
     global $database;
     $fdata = $database->getResourceLevel($vid);
@@ -85,7 +85,7 @@ class adm_DB {
         }
     }
     $q = "UPDATE ".TB_PREFIX."vdata set cp = $popTot where wref = $vid";
-    mysql_query($q, $this->connection);
+    $database->mysql_query_adapter($q);
     }
 
   function buildingPOP($f,$lvl){
@@ -99,22 +99,22 @@ class adm_DB {
     }
     return $popT;
   }
-  
+
     function buildingCP($f,$lvl){
         $name = "bid".$f;
         global $$name;
         $popT = 0;
         $dataarray = $$name;
-        
+
         for ($i = 1; $i <= $lvl; $i++) {
             $popT += $dataarray[$i]['cp'];
         }
         return $popT;
-    } 
+    }
 
 	function getWref($x,$y) {
 		$q = "SELECT id FROM ".TB_PREFIX."wdata where x = $x and y = $y";
-		$result = mysql_query($q, $this->connection);
+		$result = $database->mysql_query_adapter($q);
 		$r = mysql_fetch_array($result);
 		return $r['id'];
 	}
@@ -126,7 +126,7 @@ class adm_DB {
 	$status = $database->getVillageState($wid);
 	$status = 0;
 	if($status == 0){
-	mysql_query("Insert into ".TB_PREFIX."admin_log values (0,".$_SESSION['id'].",'Added new village <b><a href=\'admin.php?p=village&did=$wid\'>$wid</a></b> to user <b><a href=\'admin.php?p=player&uid=$uid\'>$uid</a></b>',".time().")");
+	$database->mysql_query_adapter("Insert into ".TB_PREFIX."admin_log values (0,".$_SESSION['id'].",'Added new village <b><a href=\'admin.php?p=village&did=$wid\'>$wid</a></b> to user <b><a href=\'admin.php?p=player&uid=$uid\'>$uid</a></b>',".time().")");
 	  $database->setFieldTaken($wid);
 		  $database->addVillage($wid,$uid,'new village','0');
 		  $database->addResourceFields($wid,$database->getVillageType($wid));
@@ -164,23 +164,23 @@ class adm_DB {
 			if($post['clean_ware']){
 			  $time = time();
 			  $q = "UPDATE ".TB_PREFIX."vdata SET `wood` = '0', `clay` = '0', `iron` = '0', `crop` = '0', `lastupdate` = '$time' WHERE wref = $vid;";
-			  mysql_query($q, $this->connection);
+			  $database->mysql_query_adapter($q);
 			}
 		  }
-			mysql_query("Insert into ".TB_PREFIX."admin_log values (0,".$_SESSION['id'].",'Punished user: <a href=\'admin.php?p=player&uid=".$post['uid']."\'>".$post['uid']."</a> with <b>-".$post['punish']."%</b> population',".time().")");
+			$database->mysql_query_adapter("Insert into ".TB_PREFIX."admin_log values (0,".$_SESSION['id'].",'Punished user: <a href=\'admin.php?p=player&uid=".$post['uid']."\'>".$post['uid']."</a> with <b>-".$post['punish']."%</b> population',".time().")");
   }
 
   function PunishBuilding($vid,$proc,$pop){
 	global $database;
 	$q = "UPDATE ".TB_PREFIX."vdata set pop = $pop where wref = $vid;";
-	mysql_query($q, $this->connection);
+	$database->mysql_query_adapter($q);
 	$fdata = $database->getResourceLevel($vid);
 	for ($i = 1; $i <= 40; $i++) {
 	  if($fdata['f'.$i]>1){
 		$zm = ($fdata['f'.$i]/100)*$proc;
 		if($zm < 1){$zm = 1;}else{$zm = floor($zm);}
 		$q = "UPDATE ".TB_PREFIX."fdata SET `f$i` = '$zm' WHERE `vref` = $vid;";
-		mysql_query($q, $this->connection);
+		$database->mysql_query_adapter($q);
 	  }
 	}
   }
@@ -193,7 +193,7 @@ class adm_DB {
 
   function DelUnits2($vid,$unit){
 	  $q = "UPDATE ".TB_PREFIX."units SET `u$unit` = '0' WHERE `vref` = $vid;";
-	  mysql_query($q, $this->connection);
+	  $database->mysql_query_adapter($q);
   }
 
 	function DelPlayer($uid,$pass){
@@ -205,25 +205,25 @@ class adm_DB {
 			$this->DelVillage($villages[$i]['wref'], 1);
 		  }
  		$q = "DELETE FROM ".TB_PREFIX."hero where uid = $uid";
-		mysql_query($q, $this->connection);
- 
+		$database->mysql_query_adapter($q);
+
 		$name = $database->getUserField($uid,"username",0);
-		mysql_query("Insert into ".TB_PREFIX."admin_log values (0,$ID,'Deleted user <a>$name</a>',".time().")");
+		$database->mysql_query_adapter("Insert into ".TB_PREFIX."admin_log values (0,$ID,'Deleted user <a>$name</a>',".time().")");
 		$q = "DELETE FROM ".TB_PREFIX."users WHERE `id` = $uid;";
-		 mysql_query($q, $this->connection);
+		 $database->mysql_query_adapter($q);
 	}
   }
 
   function getUserActive() {
 	$time = time() - (60*5);
 		$q = "SELECT * FROM ".TB_PREFIX."users where timestamp > $time and username != 'support'";
-		$result = mysql_query($q, $this->connection);
+		$result = $database->mysql_query_adapter($q);
 	return $this->mysql_fetch_all($result);
 	}
 
   function CheckPass($password,$uid){
 	$q = "SELECT password FROM ".TB_PREFIX."users where id = '$uid' and access = ".ADMIN;
-		$result = mysql_query($q, $this->connection);
+		$result = $database->mysql_query_adapter($q);
 		$dbarray = mysql_fetch_array($result);
 		if($dbarray['password'] == md5($password)) {
 		  return true;
@@ -239,38 +239,38 @@ class adm_DB {
 	  }else{
 		$q = "SELECT * FROM ".TB_PREFIX."vdata WHERE `wref` = $wref";
 	  }
-		$result = mysql_query($q, $this->connection);
+		$result = $database->mysql_query_adapter($q);
 		if(mysql_num_rows($result) > 0){
-			mysql_query("Insert into ".TB_PREFIX."admin_log values (0,".$_SESSION['id'].",'Deleted village <b>$wref</b>',".time().")");
+			$database->mysql_query_adapter("Insert into ".TB_PREFIX."admin_log values (0,".$_SESSION['id'].",'Deleted village <b>$wref</b>',".time().")");
 
 			$database->clearExpansionSlot($wref);
-		
+
 			$q = "DELETE FROM ".TB_PREFIX."abdata where vref = $wref";
-			mysql_query($q, $this->connection);
+			$database->mysql_query_adapter($q);
 			$q = "DELETE FROM ".TB_PREFIX."bdata where wid = $wref";
-			mysql_query($q, $this->connection);
+			$database->mysql_query_adapter($q);
 			$q = "DELETE FROM ".TB_PREFIX."market where vref = $wref";
-			mysql_query($q, $this->connection);
+			$database->mysql_query_adapter($q);
 			$q = "DELETE FROM ".TB_PREFIX."odata where wref = $wref";
-			mysql_query($q, $this->connection);
+			$database->mysql_query_adapter($q);
 			$q = "DELETE FROM ".TB_PREFIX."research where vref = $wref";
-			mysql_query($q, $this->connection);
+			$database->mysql_query_adapter($q);
 			$q = "DELETE FROM ".TB_PREFIX."tdata where vref = $wref";
-			mysql_query($q, $this->connection);
+			$database->mysql_query_adapter($q);
 			$q = "DELETE FROM ".TB_PREFIX."fdata where vref = $wref";
-			mysql_query($q, $this->connection);
+			$database->mysql_query_adapter($q);
 			$q = "DELETE FROM ".TB_PREFIX."training where vref = $wref";
-			mysql_query($q, $this->connection);
+			$database->mysql_query_adapter($q);
 			$q = "DELETE FROM ".TB_PREFIX."units where vref = $wref";
-			mysql_query($q, $this->connection);
+			$database->mysql_query_adapter($q);
 			$q = "DELETE FROM ".TB_PREFIX."farmlist where wref = $wref";
-			mysql_query($q, $this->connection);
+			$database->mysql_query_adapter($q);
 			$q = "DELETE FROM ".TB_PREFIX."raidlist where towref = $wref";
-			mysql_query($q, $this->connection);
-		
+			$database->mysql_query_adapter($q);
+
 			$q = "DELETE FROM ".TB_PREFIX."movement where `from` = $wref and proc=0";
-			mysql_query($q, $this->connection);
-				
+			$database->mysql_query_adapter($q);
+
 			$getmovement = $database->getMovement(3,$wref,1);
 			foreach($getmovement as $movedata) {
 				$time = microtime(true);
@@ -282,14 +282,14 @@ class adm_DB {
 
 			//check	return enforcement from del village
 			$this->returnTroops($wref);
-		
+
 			$q = "DELETE FROM ".TB_PREFIX."vdata WHERE `wref` = $wref";
-			mysql_query($q, $this->connection);
-	
+			$database->mysql_query_adapter($q);
+
 			if (mysql_affected_rows()>0) {
 				$q = "UPDATE ".TB_PREFIX."wdata set occupied = 0 where id = $wref";
-				mysql_query($q, $this->connection);
-			
+				$database->mysql_query_adapter($q);
+
 				$getprisoners = $database->getPrisoners($wref);
 				foreach($getprisoners as $pris) {
 					$troops = 0;
@@ -310,70 +310,70 @@ class adm_DB {
 				}
 			}
 		}
-	}	
-  
+	}
+
 	function DelBan($uid,$id){
 	 global $database;
 	$name = addslashes($database->getUserField($uid,"username",0));
-	mysql_query("Insert into ".TB_PREFIX."admin_log values (0,".$_SESSION['id'].",'Unbanned user <a href=\'admin.php?p=player&uid=$uid\'>$name</a>',".time().")");
+	$database->mysql_query_adapter("Insert into ".TB_PREFIX."admin_log values (0,".$_SESSION['id'].",'Unbanned user <a href=\'admin.php?p=player&uid=$uid\'>$name</a>',".time().")");
 	$q = "UPDATE ".TB_PREFIX."users SET `access` = '".USER."' WHERE `id` = $uid;";
-	mysql_query($q, $this->connection);
+	$database->mysql_query_adapter($q);
 	$q = "UPDATE ".TB_PREFIX."banlist SET `active` = '0' WHERE `id` = $id;";
-	mysql_query($q, $this->connection);
+	$database->mysql_query_adapter($q);
   }
 
   function AddBan($uid,$end,$reason){
 	global $database;
 	$name = addslashes($database->getUserField($uid,"username",0));
-	mysql_query("Insert into ".TB_PREFIX."admin_log values (0,".$_SESSION['id'].",'Banned user <a href=\'admin.php?p=player&uid=$uid\'>$name</a>',".time().")");
+	$database->mysql_query_adapter("Insert into ".TB_PREFIX."admin_log values (0,".$_SESSION['id'].",'Banned user <a href=\'admin.php?p=player&uid=$uid\'>$name</a>',".time().")");
 	$q = "UPDATE ".TB_PREFIX."users SET `access` = '0' WHERE `id` = $uid;";
-	mysql_query($q, $this->connection);
+	$database->mysql_query_adapter($q);
 	$time = time();
 	$admin = $_SESSION['id'];  //$database->getUserField($_SESSION['username'],'id',1);
 	$name = addslashes($database->getUserField($uid,'username',0));
 	$q = "INSERT INTO ".TB_PREFIX."banlist (`uid`, `name`, `reason`, `time`, `end`, `admin`, `active`) VALUES ($uid, '$name' , '$reason', '$time', '$end', '$admin', '1');";
-	mysql_query($q, $this->connection);
+	$database->mysql_query_adapter($q);
   }
 
   function search_player($player){
 	$q = "SELECT id,username FROM ".TB_PREFIX."users WHERE `username` LIKE '%$player%' and username != 'support'";
-	$result = mysql_query($q, $this->connection);
+	$result = $database->mysql_query_adapter($q);
 	return $this->mysql_fetch_all($result);
   }
 
   function search_email($email){
 	$q = "SELECT id,email FROM ".TB_PREFIX."users WHERE `email` LIKE '%$email%' and username != 'support'";
-	$result = mysql_query($q, $this->connection);
+	$result = $database->mysql_query_adapter($q);
 	return $this->mysql_fetch_all($result);
   }
 
   function search_village($village){
 	$q = "SELECT * FROM ".TB_PREFIX."vdata WHERE `name` LIKE '%$village%' or `wref` LIKE '%$village%'";
-	$result = mysql_query($q, $this->connection);
+	$result = $database->mysql_query_adapter($q);
 	return $this->mysql_fetch_all($result);
   }
 
   function search_alliance($alliance){
 	$q = "SELECT * FROM ".TB_PREFIX."alidata WHERE `name` LIKE '%$alliance%' or `tag` LIKE '%$alliance%' or `id` LIKE '%$alliance%'";
-	$result = mysql_query($q, $this->connection);
+	$result = $database->mysql_query_adapter($q);
 	return $this->mysql_fetch_all($result);
   }
 
   function search_ip($ip){
 	$q = "SELECT * FROM ".TB_PREFIX."login_log WHERE `ip` LIKE '%$ip%'";
-	$result = mysql_query($q, $this->connection);
+	$result = $database->mysql_query_adapter($q);
 	return $this->mysql_fetch_all($result);
   }
 
   function search_banned(){
 	$q = "SELECT * FROM ".TB_PREFIX."banlist where active = '1'";
-	$result = mysql_query($q, $this->connection);
+	$result = $database->mysql_query_adapter($q);
 	return $this->mysql_fetch_all($result);
   }
 
   function Del_banned(){
 	//$q = "SELECT * FROM ".TB_PREFIX."banlist";
-	$result = mysql_query($q, $this->connection);
+	$result = $database->mysql_query_adapter($q);
 	return $this->mysql_fetch_all($result);
   }
 
@@ -390,7 +390,7 @@ class adm_DB {
 	}
 
 	function query_return($q) {
-		$result = mysql_query($q, $this->connection);
+		$result = $database->mysql_query_adapter($q);
 		return $this->mysql_fetch_all($result);
 	}
 
@@ -399,13 +399,13 @@ class adm_DB {
 	References: Query
 	***************************/
 	function query($query) {
-		return mysql_query($query, $this->connection);
+		return $database->mysql_query_adapter($query);
 	}
 
 	public function getTypeLevel($tid,$vid) {
 		global $village,$database;
 		$keyholder = array();
-		
+
 		if($vid == 0) {
 			$resourcearray = $village->resarray;
 		} else {
@@ -454,7 +454,7 @@ class adm_DB {
 
 	   public function procDistanceTime($coor,$thiscoor,$ref,$vid) {
 		global $bid28,$bid14;
-		
+
 		$xdistance = ABS($thiscoor['x'] - $coor['x']);
 		if($xdistance > WORLD_MAX) {
 			$xdistance = (2 * WORLD_MAX + 1) - $xdistance;
@@ -479,17 +479,17 @@ class adm_DB {
         global $database;
 
         $getenforce=$database->getEnforceVillage($wref,0);
-        
+
 		//if(($enforce['from']==$village->wid) || ($enforce['vref']==$village->wid)){
         foreach($getenforce as $enforce) {
-			
+
 			$to = $database->getVillage($enforce['from']);
 			$Gtribe = "";
 			if ($database->getUserField($to['owner'],'tribe',0) ==  '2'){ $Gtribe = "1"; }
 			else if ($database->getUserField($to['owner'],'tribe',0) == '3'){ $Gtribe =  "2"; }
 			else if ($database->getUserField($to['owner'],'tribe',0) ==  '4'){ $Gtribe = "3"; }
 			else if  ($database->getUserField($to['owner'],'tribe',0) == '5'){ $Gtribe =  "4"; }
-                    
+
 			$start = ($database->getUserField($to['owner'],'tribe',0)-1)*10+1;
 			$end = ($database->getUserField($to['owner'],'tribe',0)*10);
 
@@ -503,30 +503,30 @@ class adm_DB {
 
 			//find slowest unit.
 			for($i=$start;$i<=$end;$i++){
-				
+
 				if(intval($enforce['u'.$i]) > 0){
 					if($unitarray) { reset($unitarray); }
 					$unitarray = $GLOBALS["u".$i];
 					$speeds[] = $unitarray['speed'];
 					//echo print_r(array_keys($speeds))."unitspd\n".$i."trib\n";
-					
+
 
 				} else {
 					$enforce['u'.$i]='0';
 				}
-				
+
 			}
-			
+
 			if( intval($enforce['hero']) > 0){
 				$q = "SELECT * FROM ".TB_PREFIX."hero WHERE uid = ".$from['owner']."";
-				$result = mysql_query($q);
+				$result = $database->mysql_query_adapter($q);
 				$hero_f=mysql_fetch_array($result);
 				$hero_unit=$hero_f['unit'];
 				$speeds[] = $GLOBALS['u'.$hero_unit]['speed'];
 			} else {
 				$enforce['hero']='0';
 			}
-			
+
 			$artefact = count($database->getOwnUniqueArtefactInfo2($from['owner'],2,3,0));
 			$artefact1 = count($database->getOwnUniqueArtefactInfo2($enforce['from'],2,1,1));
 			$artefact2 = count($database->getOwnUniqueArtefactInfo2($from['owner'],2,2,0));
@@ -540,7 +540,7 @@ class adm_DB {
 				$fastertroops = 1;
 			}
 			$time = round($this->procDistanceTime($fromCor,$toCor,min($speeds),$enforce['from'])/$fastertroops);
-			
+
 			$foolartefact2 = $database->getFoolArtefactInfo(2,$enforce['from'],$from['owner']);
 			if(count($foolartefact2) > 0){
 				foreach($foolartefact2 as $arte){
@@ -556,7 +556,7 @@ class adm_DB {
 			$database->addMovement(4,$wref,$enforce['from'],$reference,time(),($time+time()));
 			$database->deleteReinf($enforce['id']);
 		}
-	}	
+	}
 
 
 	public function calculateProduction($wid,$uid,$b1,$b2,$b3,$b4,$fdata,$ocounter,$pop) {
@@ -565,8 +565,8 @@ class adm_DB {
 		$largeA = $database->getOwnUniqueArtefactInfo($uid,4,2);
 		$uniqueA = $database->getOwnUniqueArtefactInfo($uid,4,3);
 		$upkeep = $this->getUpkeep($this->getAllUnits($wid),0,$wid,$uid);
-		
-		
+
+
 		$production=array();
 		$production['wood'] = $this->getWoodProd($fdata, $ocounter,$b1);
 		$production['clay'] = $this->getClayProd($fdata, $ocounter,$b2);
@@ -716,9 +716,9 @@ class adm_DB {
 					}
 					$ownunit['hero'] += $enforce['hero'];
 				}
-			}		
+			}
 
-			
+
 			$prisoners = $database->getPrisoners($base,1);
 			if(!empty($prisoners)) {
 				foreach($prisoners as $prisoner){
@@ -734,7 +734,7 @@ class adm_DB {
 				}
 			}
 		}
-		
+
 		if(!$InVillageOnly) {
 			$movement = $database->getVillageMovement($base);
 			if(!empty($movement)) {
@@ -748,7 +748,7 @@ class adm_DB {
 		}
 		return $ownunit;
 	}
-	
+
 	public function getUpkeep($array,$type,$vid,$uid,$prisoners=0) {
 		global $database;
 		$buildarray = array();
@@ -850,7 +850,7 @@ class adm_DB {
 			}
 		return $upkeep;
 	}
-	
+
 };
 
 $admin = new adm_DB;

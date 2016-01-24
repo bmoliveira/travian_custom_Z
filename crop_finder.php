@@ -126,9 +126,9 @@
 <?php
 
    define('PREFIX', TB_PREFIX);
-   $type15 = mysql_query("SELECT id,x,y,occupied FROM ".PREFIX."wdata WHERE fieldtype = 6");
-   $type9 = mysql_query("SELECT id,x,y,occupied FROM ".PREFIX."wdata WHERE fieldtype = 1");
-   $type_both = mysql_query("SELECT id,x,y,occupied,fieldtype FROM ".PREFIX."wdata WHERE fieldtype = 1 OR fieldtype = 6");
+   $type15 = $database->mysql_query_adapter("SELECT id,x,y,occupied FROM ".PREFIX."wdata WHERE fieldtype = 6");
+   $type9 = $database->mysql_query_adapter("SELECT id,x,y,occupied FROM ".PREFIX."wdata WHERE fieldtype = 1");
+   $type_both = $database->mysql_query_adapter("SELECT id,x,y,occupied,fieldtype FROM ".PREFIX."wdata WHERE fieldtype = 1 OR fieldtype = 6");
 
    if(is_numeric($_GET['x']) AND is_numeric($_GET['y'])) {
 	   $coor['x'] = $_GET['x'];
