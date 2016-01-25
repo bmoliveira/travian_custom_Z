@@ -43,6 +43,23 @@ class MYSQL_DB {
     	return false;
 	}
 
+	function mysql_query_adapter($parameters) {
+		return mysqli_query($this->sqli_connection, $parameters);
+	}
+
+	function sanitate($array) {
+	 foreach($array as $key=>$value) {
+			if(is_array($value)) {
+				sanitate($value);
+			}
+			else {
+				$array[$key] = mysqli_real_escape_string($this->sqli_connection, $value);
+			}
+	 }
+	 return $array;
+ 	}
+
+
 	function register($username, $password, $email, $tribe, $act) {
 		$time = time();
         	$stime = strtotime(START_DATE)-strtotime(date('m/d/Y'))+strtotime(START_TIME);
