@@ -1659,9 +1659,9 @@ class MYSQL_DB {
         $y1 = intval($coor['y']);
         $prevdist = 0;
         $q2 = "SELECT * FROM " . TB_PREFIX . "vdata where owner = 4";
-        $array2 = mysqli_fetch_array(mysqli_query($this->sqli_connection, $q2));
+        $array2 = mysqli_fetch_array(mysqli_query($this->sqli_connection, $q2);
         $vill = $array2['wref'];
-        if(mysqli_num_rows(mysqli_query($this->sqli_connection, $q)) > 0) {
+        if(mysqli_num_rows(mysqli_query($this->sqli_connection, $q 0){
             foreach($array as $village){
                 $coor2 = $this->getCoor($village['wref']);
                 $max = 2 * WORLD_MAX + 1;

@@ -20,7 +20,7 @@
 class MYSQL_DB {
 
 	var $connection;
-	var $sqli_connection
+	var $sqli_connection;
 
 	function MYSQL_DB() {
 		$this->sqli_connection = mysqli_connect(SQL_SERVER, SQL_USER, SQL_PASS, SQL_DB) or die('Connect Error (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
@@ -31,8 +31,8 @@ class MYSQL_DB {
 		mysql_query("SET NAMES 'UTF8'");  //Fix utf8 phpmyadmin by gm4st3r
 	}
 
-	function mysqli_result($res,$row=0,$col=0){ 
-    	$numrows = mysqli_num_rows($res); 
+	function mysqli_result($res,$row=0,$col=0){
+    	$numrows = mysqli_num_rows($res);
     	if ($numrows && $row <= ($numrows-1) && $row >=0){
         	mysqli_data_seek($res,$row);
         	$resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
@@ -1659,9 +1659,9 @@ class MYSQL_DB {
         $y1 = intval($coor['y']);
         $prevdist = 0;
         $q2 = "SELECT * FROM " . TB_PREFIX . "vdata where owner = 4";
-        $array2 = mysqli_fetch_array(mysqli_query($this->sqli_connection, $q2
+        $array2 = mysqli_fetch_array(mysqli_query($this->sqli_connection, $q2));
         $vill = $array2['wref'];
-        if(mysqli_num_rows(mysqli_query($this->sqli_connection, $q 0){
+        if(mysqli_num_rows(mysqli_query($this->sqli_connection, $q)) > 0) {
             foreach($array as $village){
                 $coor2 = $this->getCoor($village['wref']);
                 $max = 2 * WORLD_MAX + 1;
