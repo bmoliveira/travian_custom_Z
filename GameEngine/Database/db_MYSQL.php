@@ -2142,7 +2142,8 @@ class MYSQL_DB {
 	function FinishWoodcutter($wid) {
 		$time = time()-1;
 		$q = "SELECT * FROM " . TB_PREFIX . "bdata where wid = $wid and type = 1 order by master,timestamp ASC";
-		$result = mysqli_query($this->sqli_connection, $q		$dbarray = mysqli_fetch_array($result);
+		$result = mysqli_query($this->sqli_connection, $q);
+		$dbarray = mysqli_fetch_array($result);
 		$q = "UPDATE ".TB_PREFIX."bdata SET timestamp = $time WHERE id = '".$dbarray['id']."'";
 		$this->query($q);
 		$tribe = $this->getUserField($this->getVillageField($wid, "owner"), "tribe", 0);
@@ -2151,11 +2152,12 @@ class MYSQL_DB {
 		}else{
 		$q2 = "SELECT * FROM " . TB_PREFIX . "bdata where wid = $wid and loopcon = 1 order by master,timestamp ASC";
 		}
-		$result2 = mysqli_query($this->sqli_connection, $q2		if(mysqli_num_rows($result2) > 0){
-		$dbarray2 = mysqli_fetch_array($result2);
-		$wc_time = $dbarray['timestamp'];
-		$q2 = "UPDATE ".TB_PREFIX."bdata SET timestamp = timestamp - $wc_time WHERE id = '".$dbarray2['id']."'";
-		$this->query($q2);
+		$result2 = mysqli_query($this->sqli_connection, $q2);
+		if(mysqli_num_rows($result2) > 0){
+			$dbarray2 = mysqli_fetch_array($result2);
+			$wc_time = $dbarray['timestamp'];
+			$q2 = "UPDATE ".TB_PREFIX."bdata SET timestamp = timestamp - $wc_time WHERE id = '".$dbarray2['id']."'";
+			$this->query($q2);
 		}
 	}
 
@@ -2550,7 +2552,7 @@ class MYSQL_DB {
 
 	function getHeroField($uid,$field){
 			$q = "SELECT * FROM ".TB_PREFIX."hero WHERE uid = $uid";
-			$result = mysqli_query($this->sqli_connection, $q;
+			$result = mysqli_query($this->sqli_connection, $q);
 			return $this->mysqli_fetch_all($result);
 	}
 
@@ -3360,7 +3362,8 @@ class MYSQL_DB {
 
 	function getMovementById($id){
 		$q = "SELECT * FROM ".TB_PREFIX."movement WHERE moveid = ".$id."";
-		$result = mysqli_query($this->sqli_connection, $q		$array = $this->mysqli_fetch_all($result);
+		$result = mysqli_query($this->sqli_connection, $q);
+		$array = $this->mysqli_fetch_all($result);
 		return $array;
 	}
 
@@ -3642,12 +3645,12 @@ References:
      $days1 =60*60*24*$days;
      $time =time()+$days1;
      $q ="UPDATE ".TB_PREFIX."users SET vac_mode = '1' , vac_time=".$time." WHERE id=".$uid."";
-	 $result =mysqli_query($this->sqli_connection, $q;
+	 	 $result = mysqli_query($this->sqli_connection, $q);
      }
 
    function removevacationmode($uid){
      $q ="UPDATE ".TB_PREFIX."users SET vac_mode = '0' , vac_time='0' WHERE id=".$uid."";
-     $result =mysqli_query($this->sqli_connection, $q;
+     $result = mysqli_query($this->sqli_connection, $q);
      }
 
    function getvacmodexy($wref){
