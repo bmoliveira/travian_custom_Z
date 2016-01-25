@@ -59,6 +59,9 @@ class MYSQL_DB {
 	 return $array;
  	}
 
+	function escape_string_query($parameters) {
+		return mysqli_real_escape_string($this->sqli_connection, $parameters);
+	}
 
 	function register($username, $password, $email, $tribe, $act) {
 		$time = time();
